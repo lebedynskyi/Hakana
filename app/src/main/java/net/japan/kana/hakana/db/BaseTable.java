@@ -4,8 +4,8 @@ package net.japan.kana.hakana.db;
  * Author Vitalii Lebedynskyi
  * Date 10/24/14
  */
-public class AutoIncrementTable{
-    public static final String ID = "mId";
+public class BaseTable{
+    public static final String ID = "_id";
     private int mId;
 
     public int getId(){

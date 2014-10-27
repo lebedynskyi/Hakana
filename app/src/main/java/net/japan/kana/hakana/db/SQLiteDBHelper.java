@@ -3,6 +3,7 @@ package net.japan.kana.hakana.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import net.japan.kana.hakana.core.Const;
 
 /**
