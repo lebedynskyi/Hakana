@@ -3,13 +3,14 @@ package net.japan.kana.hakana.tools;
 import android.content.Context;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.util.Log;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -44,7 +45,8 @@ public class KanjiVGParser{
         }finally{
             try{
                 stream.close();
-            }catch(Exception ignored){}
+            }catch(Exception ignored){
+            }
         }
         //TODO parse
         parsed = true;
@@ -83,7 +85,7 @@ public class KanjiVGParser{
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException{
             if(localName.equalsIgnoreCase("svg")){
                 symbolSize = new Point(Integer.parseInt(attributes.getValue("height")), Integer.parseInt(attributes.getValue("width")));
-            }else if (localName.equalsIgnoreCase("path")){
+            }else if(localName.equalsIgnoreCase("path")){
                 pathes.add(parseSvgPath(attributes.getValue("d")));
             }
         }
@@ -104,34 +106,41 @@ public class KanjiVGParser{
             Path p = new Path();
             Pattern pattern = Pattern.compile("[a-zA-Z]|(-?[\\d+\\.]+)");
             Matcher m = pattern.matcher(data);
+            ArrayList<String> groups = new ArrayList<String>();
+            while(m.find()){
+                groups.add(m.group());
+            }
 
-            String[] tokens = data.split("[ ,]");
-            int i = 0;
-            int tokenLength = tokens.length;
-            while (i < tokenLength) {
-                String token = tokens[i++];
-                if (token.equals("M")) {
-                    float x = Float.valueOf(tokens[i++]);
-                    float y = Float.valueOf(tokens[i++]);
+            Iterator<String> groupIterator = groups.iterator();
+            while(groupIterator.hasNext()){
+                String token = groupIterator.next();
+                if(token.equals("M")){
+                    float x = Float.valueOf(groupIterator.next());
+                    float y = Float.valueOf(groupIterator.next());
                     p.moveTo(x, y);
-                } else
-                if (token.equals("L")) {
-                    float x = Float.valueOf(tokens[i++]);
-                    float y = Float.valueOf(tokens[i++]);
+                }else if(token.equals("L")){
+                    float x = Float.valueOf(groupIterator.next());
+                    float y = Float.valueOf(groupIterator.next());
                     p.lineTo(x, y);
-                } else
-                if (token.equals("C")) {
-                    float x1 = Float.valueOf(tokens[i++]);
-                    float y1 = Float.valueOf(tokens[i++]);
-                    float x2 = Float.valueOf(tokens[i++]);
-                    float y2 = Float.valueOf(tokens[i++]);
-                    float x3 = Float.valueOf(tokens[i++]);
-                    float y3 = Float.valueOf(tokens[i++]);
+                }else if(token.equals("C")){
+                    float x1 = Float.valueOf(groupIterator.next());
+                    float y1 = Float.valueOf(groupIterator.next());
+                    float x2 = Float.valueOf(groupIterator.next());
+                    float y2 = Float.valueOf(groupIterator.next());
+                    float x3 = Float.valueOf(groupIterator.next());
+                    float y3 = Float.valueOf(groupIterator.next());
                     p.cubicTo(x1, y1, x2, y2, x3, y3);
-                } else
-                if (token.equals("z")) {
+                }else if(token.equals("z")){
                     p.close();
-                } else {
+                }else if(token.equals("c")){
+                    float x1 = Float.valueOf(groupIterator.next());
+                    float y1 = Float.valueOf(groupIterator.next());
+                    float x2 = Float.valueOf(groupIterator.next());
+                    float y2 = Float.valueOf(groupIterator.next());
+                    float x3 = Float.valueOf(groupIterator.next());
+                    float y3 = Float.valueOf(groupIterator.next());
+                    p.cubicTo(x1, y1, x2, y2, x3, y3);
+                }else {
                     throw new RuntimeException("unknown command [" + token + "]");
                 }
             }
