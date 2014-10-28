@@ -17,7 +17,7 @@ def getVersionCode = { ->
 def getVersionName = { ->
     try {
         def code = getVersionCode()
-        return String.valueOf(code / 10)
+        return String.valueOf(code / 100)
     }
     catch (ignored) {
         return 'La la';
