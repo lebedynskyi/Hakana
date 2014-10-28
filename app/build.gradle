@@ -1,5 +1,29 @@
 apply plugin: 'com.android.application'
 
+def getVersionCode = { ->
+    try {
+        def code = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-list', '--first-parent', '--count', 'HEAD'
+            standardOutput = code
+        }
+        return Integer.parseInt(code.toString().trim())
+    }
+    catch (ignored) {
+        return 100500;
+    }
+}
+
+def getVersionName = { ->
+    try {
+        def code = getVersionCode()
+        return String.valueOf(code / 10)
+    }
+    catch (ignored) {
+        return 'La la';
+    }
+}
+
 android {
     compileSdkVersion 18
     buildToolsVersion "21.0.1"
@@ -8,9 +32,10 @@ android {
         applicationId "net.japan.kana.hakana"
         minSdkVersion 15
         targetSdkVersion 20
-        versionCode 1
-        versionName "1.0"
+        versionCode getVersionCode()
+        versionName getVersionName()
     }
+
     buildTypes {
         release {
             runProguard false
