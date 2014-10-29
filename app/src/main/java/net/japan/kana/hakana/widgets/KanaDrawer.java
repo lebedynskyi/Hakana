@@ -18,24 +18,24 @@ import java.util.List;
  * Author Vitalii Lebedynskyi
  * Date 10/27/14
  */
-public class SVGKanaDrawer extends View{
+public class KanaDrawer extends View{
     public static final String TRACK_TAG = "SVGKanaDrawer";
 
     private String mAssetFile;
     private List<Path> mPathes;
     private Paint mPaint;
 
-    public SVGKanaDrawer(Context context){
+    public KanaDrawer(Context context){
         super(context);
         init(context, null);
     }
 
-    public SVGKanaDrawer(Context context, AttributeSet attrs){
+    public KanaDrawer(Context context, AttributeSet attrs){
         super(context, attrs);
         init(context, attrs);
     }
 
-    public SVGKanaDrawer(Context context, AttributeSet attrs, int defStyleAttr){
+    public KanaDrawer(Context context, AttributeSet attrs, int defStyleAttr){
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -66,6 +66,7 @@ public class SVGKanaDrawer extends View{
 
     @Override
     protected void onDraw(Canvas canvas){
+        //TODO draw empty symbol
         if(mPathes == null || mPathes.isEmpty()){
            return;
         }

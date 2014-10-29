@@ -2,6 +2,7 @@ package net.japan.kana.hakana.tools;
 
 import android.content.Context;
 import android.graphics.Path;
+import android.graphics.PathMeasure;
 import android.graphics.Point;
 
 import org.xml.sax.Attributes;
@@ -25,11 +26,14 @@ import javax.xml.parsers.SAXParserFactory;
  */
 public class KanjiVGParser{
     public static final String LOG_TAG = "KanjiVGParser";
+
     private final String assetFilePath;
     private final Context context;
-    private boolean parsed;
+    private boolean parsed = false;
+
     private LinkedList<Path> pathes;
     private Point symbolSize;
+    private SVGtagHandler tagHandler;
 
     public KanjiVGParser(String assetFilePath, Context c){
         this.assetFilePath = assetFilePath;
@@ -41,15 +45,16 @@ public class KanjiVGParser{
         try{
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             SAXParser parser = saxParserFactory.newSAXParser();
-            parser.parse(stream, new SVGtagHandler());
+            tagHandler = new SVGtagHandler();
+            parser.parse(stream, tagHandler);
+            pathes = tagHandler.getParsedPathes();
+            symbolSize = tagHandler.getParsedSymbolSize();
+            parsed = true;
         }finally{
             try{
                 stream.close();
-            }catch(Exception ignored){
-            }
+            }catch(Exception ignored){}
         }
-        //TODO parse
-        parsed = true;
     }
 
     public List<Path> getPathes(){
@@ -69,6 +74,17 @@ public class KanjiVGParser{
     }
 
     private class SVGtagHandler extends DefaultHandler{
+        private LinkedList<Path> parsedPathes;
+        private Point parsedSymbolSize;
+
+        public LinkedList<Path> getParsedPathes(){
+            return parsedPathes;
+        }
+
+        public Point getParsedSymbolSize(){
+            return parsedSymbolSize;
+        }
+
         @Override
         public void characters(char[] ch, int start, int length) throws SAXException{
             super.characters(ch, start, length);
@@ -78,15 +94,15 @@ public class KanjiVGParser{
         public void startDocument() throws SAXException{
             super.startDocument();
             Logging.d("SVG Parser", "Start of document, parsing....");
-            pathes = new LinkedList<Path>();
+            parsedPathes = new LinkedList<Path>();
         }
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException{
             if(localName.equalsIgnoreCase("svg")){
-                symbolSize = new Point(Integer.parseInt(attributes.getValue("height")), Integer.parseInt(attributes.getValue("width")));
+                parsedSymbolSize = new Point(Integer.parseInt(attributes.getValue("height")), Integer.parseInt(attributes.getValue("width")));
             }else if(localName.equalsIgnoreCase("path")){
-                pathes.add(parseSvgPath(attributes.getValue("d")));
+                parsedPathes.add(parseSvgPath(attributes.getValue("d")));
             }
         }
 
