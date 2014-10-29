@@ -25,12 +25,12 @@ public class App extends Application{
         mPreference = new AppPreference(this);
     }
 
-    synchronized Tracker getTracker() {
+    public synchronized Tracker getTracker() {
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
         mTracker = analytics.newTracker(R.xml.google_analytics);
         mTracker.enableAutoActivityTracking(true);
         mTracker.enableExceptionReporting(true);
-        
+
         return mTracker;
     }
 }
