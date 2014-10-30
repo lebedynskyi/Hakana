@@ -9,9 +9,9 @@ import android.widget.LinearLayout;
 
 import net.japan.kana.hakana.R;
 import net.japan.kana.hakana.core.BaseActivity;
+import net.japan.kana.hakana.fragment.FastQuizFragment;
 import net.japan.kana.hakana.widgets.DrawerArrowDrawable;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -20,24 +20,51 @@ public class MainActivity extends BaseActivity{
     DrawerLayout mDrawer;
     @InjectView(R.id.layout_drawer_menu)
     LinearLayout mDrawerMenu;
-
     @InjectView(R.id.drawer_menu_kana_btn)
-    Button mKanaBtn;
+    Button mMenuKanaBtn;
     @InjectView(R.id.drawer_menu_settings_btn)
-    Button mSettingsBtn;
+    Button mMenuSettingsBtn;
     @InjectView(R.id.drawer_menu_about_btn)
-    Button mAboutBtn;
+    Button mMenuAboutBtn;
     @InjectView(R.id.drawer_menu_test_btn)
-    Button mTestbtn;
+    Button mMenuQuizBtn;
+
+    private Button[] mMenuButtons = new Button[4];
+
     private MenuDrawerListener mDrawerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+
+        mMenuButtons[0] = mMenuKanaBtn;
+        mMenuButtons[1] = mMenuSettingsBtn;
+        mMenuButtons[2] = mMenuAboutBtn;
+        mMenuButtons[3] = mMenuQuizBtn;
 
         initDrawer();
+        showFastQuiz();
+    }
+
+    private void showFastQuiz(){
+        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
+    }
+
+    private void showKana(){
+        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
+    }
+
+    private void showSettings(){
+        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
+    }
+
+    private void showAbout(){
+        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
+    }
+
+    private void showQuiz(){
+        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
     }
 
     @Override
@@ -60,17 +87,29 @@ public class MainActivity extends BaseActivity{
         mDrawerListener = new MenuDrawerListener(arrow);
         mDrawer.setDrawerListener(mDrawerListener);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if(!getPreference().isUserKnowAboutDrawer()){
+            mDrawer.openDrawer(mDrawerMenu);
+            getPreference().setUserKnowAboutDrawer(true);
+        }
     }
 
     @OnClick({R.id.drawer_menu_kana_btn, R.id.drawer_menu_settings_btn, R.id.drawer_menu_test_btn, R.id.drawer_menu_about_btn})
     public void onDrawerMenuClicked(View v){
-        mDrawerListener.setLastBtnClicked(v.getId());
         mDrawer.closeDrawer(mDrawerMenu);
+        if(v.isSelected()){ //Menu already chosen
+            return;
+        }
+
+        for (Button b: mMenuButtons){
+            b.setSelected(false);
+        }
+        v.setSelected(true);
     }
 
     private class MenuDrawerListener extends DrawerLayout.SimpleDrawerListener{
         private DrawerArrowDrawable arrow;
-        private int lastBtnClicked;
+        private int lastBtnClicked = -1;
 
         private MenuDrawerListener(DrawerArrowDrawable arrow){
             this.arrow = arrow;
@@ -90,10 +129,21 @@ public class MainActivity extends BaseActivity{
 
         @Override
         public void onDrawerClosed(View drawerView){
-            if(lastBtnClicked != 0){ //Menu was clicked
-
+            switch(lastBtnClicked){
+                case R.id.drawer_menu_about_btn:
+                    showAbout();
+                    break;
+                case R.id.drawer_menu_settings_btn:
+                    showSettings();
+                    break;
+                case R.id.drawer_menu_kana_btn:
+                    showKana();
+                    break;
+                case R.id.drawer_menu_test_btn:
+                    showQuiz();
+                    break;
             }
-            lastBtnClicked = 0;
+            lastBtnClicked = -1;
         }
 
         public void setLastBtnClicked(int lastBtnClicked){

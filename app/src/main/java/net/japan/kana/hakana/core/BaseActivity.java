@@ -3,9 +3,13 @@ package net.japan.kana.hakana.core;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+
+import butterknife.ButterKnife;
 
 /**
  * Author Vitalii Lebedynskyi
@@ -32,5 +36,23 @@ public class BaseActivity extends Activity{
     public AppPreference getPreference(){
         App app = (App) getApplication();
         return app.getPreference();
+    }
+
+    @Override
+    public void setContentView(int layoutResID){
+        super.setContentView(layoutResID);
+        ButterKnife.inject(this);
+    }
+
+    @Override
+    public void setContentView(View view){
+        super.setContentView(view);
+        ButterKnife.inject(this);
+    }
+
+    @Override
+    public void setContentView(View view, ViewGroup.LayoutParams params){
+        super.setContentView(view, params);
+        ButterKnife.inject(this);
     }
 }

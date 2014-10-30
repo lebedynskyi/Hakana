@@ -1,19 +1,22 @@
-package net.japan.kana.hakana.core;
+package net.japan.kana.hakana.fragment;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.japan.kana.hakana.core.BaseFragment;
+
 /**
  * Author Vitalii Lebedynskyi
- * Date 10/24/14
+ * Date 10/30/14
  */
-public abstract class BaseFragment<T extends BaseActivity> extends Fragment{
-    protected T mActivity;
+public class SettingsFragment extends BaseFragment{
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
@@ -22,10 +25,7 @@ public abstract class BaseFragment<T extends BaseActivity> extends Fragment{
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public final void onAttach(Activity activity){
-        super.onAttach(activity);
-        //Base fragment should be added only for T activity
-        mActivity = (T) activity;
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
     }
 }
