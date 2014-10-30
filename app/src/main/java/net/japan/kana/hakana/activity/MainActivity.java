@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import net.japan.kana.hakana.R;
@@ -12,12 +13,23 @@ import net.japan.kana.hakana.widgets.DrawerArrowDrawable;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity{
     @InjectView(R.id.layout_drawer)
     DrawerLayout mDrawer;
     @InjectView(R.id.layout_drawer_menu)
     LinearLayout mDrawerMenu;
+
+    @InjectView(R.id.drawer_menu_kana_btn)
+    Button mKanaBtn;
+    @InjectView(R.id.drawer_menu_settings_btn)
+    Button mSettingsBtn;
+    @InjectView(R.id.drawer_menu_about_btn)
+    Button mAboutBtn;
+    @InjectView(R.id.drawer_menu_test_btn)
+    Button mTestbtn;
+    private MenuDrawerListener mDrawerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -45,15 +57,22 @@ public class MainActivity extends BaseActivity{
         DrawerArrowDrawable arrow = new DrawerArrowDrawable(getResources());
         arrow.setStrokeColor(getResources().getColor(android.R.color.white));
         getActionBar().setIcon(arrow);
-        DrawerArrowListener arrowListener = new DrawerArrowListener(arrow);
-        mDrawer.setDrawerListener(arrowListener);
+        mDrawerListener = new MenuDrawerListener(arrow);
+        mDrawer.setDrawerListener(mDrawerListener);
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private class DrawerArrowListener extends DrawerLayout.SimpleDrawerListener{
-        private DrawerArrowDrawable arrow;
+    @OnClick({R.id.drawer_menu_kana_btn, R.id.drawer_menu_settings_btn, R.id.drawer_menu_test_btn, R.id.drawer_menu_about_btn})
+    public void onDrawerMenuClicked(View v){
+        mDrawerListener.setLastBtnClicked(v.getId());
+        mDrawer.closeDrawer(mDrawerMenu);
+    }
 
-        private DrawerArrowListener(DrawerArrowDrawable arrow){
+    private class MenuDrawerListener extends DrawerLayout.SimpleDrawerListener{
+        private DrawerArrowDrawable arrow;
+        private int lastBtnClicked;
+
+        private MenuDrawerListener(DrawerArrowDrawable arrow){
             this.arrow = arrow;
         }
 
@@ -67,6 +86,18 @@ public class MainActivity extends BaseActivity{
             }
 
             arrow.setParameter(slideOffset);
+        }
+
+        @Override
+        public void onDrawerClosed(View drawerView){
+            if(lastBtnClicked != 0){ //Menu was clicked
+
+            }
+            lastBtnClicked = 0;
+        }
+
+        public void setLastBtnClicked(int lastBtnClicked){
+            this.lastBtnClicked = lastBtnClicked;
         }
     }
 }

@@ -2,9 +2,11 @@
 <resources>
     <!--Drawer colors-->
     <color name="drawer_menu_button_text_color">#000000</color>
-    <color name="drawer_menu_button_bg_color">#ffb6b6b6</color>
-
+    <color name="drawer_menu_button_text_color_active">#ffffff</color>
+    <color name="drawer_menu_button_bg_color">#f4eee5</color>
+    <color name="drawer_menu_button_bg_color_active">#ffca3a0e</color>
     <!--Actionbar colors-->
     <color name="action_bar_bg_color">#ffca3a0e</color>
     <color name="action_bar_active_item_bg">#ffec420e</color>
+    <color name="app_bg">#dcd5cd</color>"
 </resources>
