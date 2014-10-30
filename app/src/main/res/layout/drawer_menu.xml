@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <Button
+        android:id="@+id/drawer_menu_kana_btn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/drawer_menu_kana"
+        style="@style/DrawerButton"/>
+    <Button
+        android:id="@+id/drawer_menu_test_btn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/drawer_menu_test"
+        style="@style/DrawerButton"/>
+    <Button
+        android:id="@+id/drawer_menu_about_btn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/drawer_menu_about"
+        style="@style/DrawerButton"/>
+    <Button
+        android:id="@+id/drawer_menu_settings_btn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/drawer_menu_settings"
+        style="@style/DrawerButton"/>
+</LinearLayout>

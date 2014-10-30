@@ -30,7 +30,6 @@ public class App extends Application{
         mTracker = analytics.newTracker(R.xml.google_analytics);
         mTracker.enableAutoActivityTracking(true);
         mTracker.enableExceptionReporting(true);
-
         return mTracker;
     }
 }

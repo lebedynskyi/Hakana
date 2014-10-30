@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Drawer colors-->
+    <color name="drawer_menu_button_text_color">#000000</color>
+    <color name="drawer_menu_button_bg_color">#ffb6b6b6</color>
+
+    <!--Actionbar colors-->
+    <color name="action_bar_bg_color">#CF3A0E</color>
+</resources>
