@@ -2,6 +2,7 @@
 <resources>
     <!--Base app strings-->
     <string name="app_name">Hakana</string>
+    <string name="fast_quiz_title">Fast quiz</string>
 
     <!--Menu drawer-->
     <string name="drawer_menu_kana">Kana</string>

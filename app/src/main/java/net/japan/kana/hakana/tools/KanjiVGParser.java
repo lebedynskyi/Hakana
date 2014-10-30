@@ -2,7 +2,6 @@ package net.japan.kana.hakana.tools;
 
 import android.content.Context;
 import android.graphics.Path;
-import android.graphics.PathMeasure;
 import android.graphics.Point;
 
 import org.xml.sax.Attributes;
@@ -40,6 +39,7 @@ public class KanjiVGParser{
         this.context = c;
     }
 
+    //preparing of path for kanji
     public void parse() throws Exception{
         InputStream stream = context.getAssets().open(assetFilePath);
         try{
@@ -57,6 +57,7 @@ public class KanjiVGParser{
         }
     }
 
+    //returns parsed pathes
     public List<Path> getPathes(){
         if(!parsed){
             throw new IllegalStateException("parse() should be called before");
@@ -65,6 +66,7 @@ public class KanjiVGParser{
         return pathes;
     }
 
+    //returns parsed size of parsed symbol
     public Point getSymbolSize(){
         if(!parsed){
             throw new IllegalStateException("parse() should be called before");
@@ -73,6 +75,7 @@ public class KanjiVGParser{
         return symbolSize;
     }
 
+    //handler of tags like <g> <svg> etc
     private class SVGtagHandler extends DefaultHandler{
         private LinkedList<Path> parsedPathes;
         private Point parsedSymbolSize;
@@ -118,6 +121,7 @@ public class KanjiVGParser{
             Logging.d("SVG Parser", "End document, creating of path");
         }
 
+        //parsing data of path
         private Path parseSvgPath(String data){
             Path p = new Path();
             Pattern pattern = Pattern.compile("[a-zA-Z]|(-?[\\d+\\.]+)");

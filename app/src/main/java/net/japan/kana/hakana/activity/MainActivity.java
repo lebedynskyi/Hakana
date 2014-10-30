@@ -38,6 +38,7 @@ public class MainActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //initializing of array of menu items
         mMenuButtons[0] = mMenuKanaBtn;
         mMenuButtons[1] = mMenuSettingsBtn;
         mMenuButtons[2] = mMenuAboutBtn;
@@ -67,6 +68,7 @@ public class MainActivity extends BaseActivity{
         getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
     }
 
+    //Called when user clicks on menu in action bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == android.R.id.home){
@@ -79,18 +81,20 @@ public class MainActivity extends BaseActivity{
         return true;
     }
 
+    //Initializing of drawer and arrow on the action bar
     private void initDrawer(){
-        //Initializing of drawer and arrow on the action abr
         DrawerArrowDrawable arrow = new DrawerArrowDrawable(getResources());
         arrow.setStrokeColor(getResources().getColor(android.R.color.white));
         getActionBar().setIcon(arrow);
-        mDrawerListener = new MenuDrawerListener(arrow);
+        mDrawerListener = new MenuDrawerListener(arrow, getString(R.string.app_name), getString(R.string.fast_quiz_title));
         mDrawer.setDrawerListener(mDrawerListener);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(!getPreference().isUserKnowAboutDrawer()){
             mDrawer.openDrawer(mDrawerMenu);
             getPreference().setUserKnowAboutDrawer(true);
+        }else {
+            getActionBar().setTitle(getString(R.string.fast_quiz_title));
         }
     }
 
@@ -101,18 +105,29 @@ public class MainActivity extends BaseActivity{
             return;
         }
 
+        //deselecting all menu items
         for (Button b: mMenuButtons){
             b.setSelected(false);
         }
+
+        //set id of clicked item for listener. It will changed fragment
+        mDrawerListener.setLastBtnClicked(v.getId());
+
+        //selecting current clicked item
         v.setSelected(true);
     }
 
+    //Response for rotating of arrow and changing of fragment when menu item was clicked
     private class MenuDrawerListener extends DrawerLayout.SimpleDrawerListener{
         private DrawerArrowDrawable arrow;
+        private final String titleForOpened;
+        private final String titleForClosed;
         private int lastBtnClicked = -1;
 
-        private MenuDrawerListener(DrawerArrowDrawable arrow){
+        private MenuDrawerListener(DrawerArrowDrawable arrow, String titleForOpened, String titleForClosed){
             this.arrow = arrow;
+            this.titleForOpened = titleForOpened;
+            this.titleForClosed = titleForClosed;
         }
 
         @Override
@@ -124,11 +139,13 @@ public class MainActivity extends BaseActivity{
                 arrow.setFlip(false);
             }
 
+            //set up new arrow position
             arrow.setParameter(slideOffset);
         }
 
         @Override
         public void onDrawerClosed(View drawerView){
+            //drawer was closed, check is it was a menu item
             switch(lastBtnClicked){
                 case R.id.drawer_menu_about_btn:
                     showAbout();
@@ -144,6 +161,12 @@ public class MainActivity extends BaseActivity{
                     break;
             }
             lastBtnClicked = -1;
+            getActionBar().setTitle(titleForClosed);
+        }
+
+        @Override
+        public void onDrawerOpened(View drawerView){
+            getActionBar().setTitle(titleForOpened);
         }
 
         public void setLastBtnClicked(int lastBtnClicked){
