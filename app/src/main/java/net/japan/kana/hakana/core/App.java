@@ -32,4 +32,8 @@ public class App extends Application{
         mTracker.enableExceptionReporting(true);
         return mTracker;
     }
+
+    public AppPreference getPreference(){
+        return mPreference;
+    }
 }

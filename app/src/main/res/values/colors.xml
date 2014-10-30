@@ -5,5 +5,6 @@
     <color name="drawer_menu_button_bg_color">#ffb6b6b6</color>
 
     <!--Actionbar colors-->
-    <color name="action_bar_bg_color">#CF3A0E</color>
+    <color name="action_bar_bg_color">#ffca3a0e</color>
+    <color name="action_bar_active_item_bg">#ffec420e</color>
 </resources>

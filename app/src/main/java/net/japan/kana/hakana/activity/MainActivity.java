@@ -2,6 +2,7 @@ package net.japan.kana.hakana.activity;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -27,6 +28,18 @@ public class MainActivity extends BaseActivity{
         initDrawer();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == android.R.id.home){
+            if(mDrawer.isDrawerOpen(mDrawerMenu)){
+                mDrawer.closeDrawer(mDrawerMenu);
+            }else{
+                mDrawer.openDrawer(mDrawerMenu);
+            }
+        }
+        return true;
+    }
+
     private void initDrawer(){
         //Initializing of drawer and arrow on the action abr
         DrawerArrowDrawable arrow = new DrawerArrowDrawable(getResources());
@@ -34,6 +47,7 @@ public class MainActivity extends BaseActivity{
         getActionBar().setIcon(arrow);
         DrawerArrowListener arrowListener = new DrawerArrowListener(arrow);
         mDrawer.setDrawerListener(arrowListener);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private class DrawerArrowListener extends DrawerLayout.SimpleDrawerListener{
