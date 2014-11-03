@@ -14,7 +14,7 @@
         android:layout_weight="0.25"
         android:gravity="center"
         android:textSize="22sp"
-        android:textColor="@color/black_to_white_selector"/>
+        android:textColor="@color/view_kana_item_text_color"/>
 
     <net.japan.kana.hakana.widgets.CheckableTextView
         android:layout_width="match_parent"
@@ -23,5 +23,5 @@
         android:layout_weight="0.75"
         android:gravity="center"
         android:textSize="17sp"
-        android:textColor="@color/black_to_white_selector"/>
+        android:textColor="@color/view_kana_item_text_color"/>
 </net.japan.kana.hakana.widgets.CheckableLinearLayout>

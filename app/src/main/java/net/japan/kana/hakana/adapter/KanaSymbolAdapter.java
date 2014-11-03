@@ -10,7 +10,6 @@ import android.widget.TextView;
 import net.japan.kana.hakana.R;
 import net.japan.kana.hakana.models.KanaSymbol;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -25,20 +24,13 @@ public class KanaSymbolAdapter extends BaseAdapter{
         HIRAGANA, KATKANA
     }
 
-    private final ArrayList<KanaSymbol> mData = new ArrayList<KanaSymbol>();
+    private final List<KanaSymbol> mData;
     private KanaType type;
     private int selectedPosition;
 
     public KanaSymbolAdapter(KanaType type, List<KanaSymbol> data){
-        setData(type, data);
-    }
-
-    public void setData(KanaType type, List<KanaSymbol> data){
         this.type = type;
-        this.mData.clear();
-        this.mData.addAll(data);
-
-        notifyDataSetChanged();
+        this.mData = data;
     }
 
     @Override

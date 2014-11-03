@@ -55,4 +55,20 @@ public class BaseActivity extends Activity{
         super.setContentView(view, params);
         ButterKnife.inject(this);
     }
+
+    public void setTitle(String s){
+        getActionBar().setTitle(s);
+    }
+
+    public void setTitle(int res){
+        setTitle(getString(res));
+    }
+
+    public void setSubTitle(String s){
+        getActionBar().setSubtitle(s);
+    }
+
+    public void setSubTitle(int res){
+        setSubTitle(getString(res));
+    }
 }

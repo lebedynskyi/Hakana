@@ -2,22 +2,19 @@ package net.japan.kana.hakana.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
 import net.japan.kana.hakana.R;
 import net.japan.kana.hakana.activity.MainActivity;
 import net.japan.kana.hakana.adapter.KanaSymbolAdapter;
-import net.japan.kana.hakana.core.BaseActivity;
 import net.japan.kana.hakana.core.BaseFragment;
 import net.japan.kana.hakana.core.Const;
 import net.japan.kana.hakana.models.KanaSymbol;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import butterknife.InjectView;
 
@@ -30,7 +27,14 @@ public class KanaFragment extends BaseFragment<MainActivity>{
         SEION, DAKUON, YOUON
     }
 
+    enum KanaType{
+        HIRAGANA, KATAKANA
+    }
+
+    private final ArrayList<KanaSymbol> currentKanasSymbols = new ArrayList<KanaSymbol>();
+
     private KanaSet setOfKana = KanaSet.SEION;
+    private KanaType kanatype = KanaType.HIRAGANA;
     private KanaSymbolAdapter kanaAdapter;
     private KanaSymbolAdapter.KanaType currentType = KanaSymbolAdapter.KanaType.HIRAGANA;
 
@@ -40,7 +44,14 @@ public class KanaFragment extends BaseFragment<MainActivity>{
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        kanaAdapter = new KanaSymbolAdapter(currentType, createListOfkanas());
+        kanaAdapter = new KanaSymbolAdapter(currentType, currentKanasSymbols);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_kana_items, menu);
     }
 
     @Nullable
@@ -54,21 +65,22 @@ public class KanaFragment extends BaseFragment<MainActivity>{
         super.onActivityCreated(savedInstanceState);
         kanaGrid.setAdapter(kanaAdapter);
         kanaGrid.setOnItemClickListener(symbolClickListener);
-        setTitle(getString(R.string.hiragana));
+        setSubTitle(R.string.hiragana);
+        refreshState();
     }
 
-    public List<KanaSymbol> createListOfkanas(){
-        if(setOfKana == KanaSet.SEION){
-            return Arrays.asList(Const.Kana.getSeionKana());
-        }else {
-            return null;
-        }
+    public void refreshState(){
+        //TODO implement
+        currentKanasSymbols.clear();
+        currentKanasSymbols.addAll(Arrays.asList(Const.Kana.getSeionKana()));
     }
 
     private AdapterView.OnItemClickListener symbolClickListener = new AdapterView.OnItemClickListener(){
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
             kanaAdapter.setSelectedPosition(position);
+
+            //TODO refresh fragment in drawable
         }
     };
 }

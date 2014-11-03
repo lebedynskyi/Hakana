@@ -7,9 +7,18 @@
         <item name="android:windowBackground">@color/app_bg</item>
     </style>
 
-
     <style name="AppActionBarStyle" parent="android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@color/action_bar_bg_color</item>
+        <item name="android:titleTextStyle">@style/TitleStyle</item>
+        <item name="android:subtitleTextStyle">@style/SubTitleStyle</item>
+    </style>
+
+    <style name="SubTitleStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse">
+        <item name="android:textColor">@color/action_bar_subtitle_color</item>
+    </style>
+
+    <style name="TitleStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse">
+        <item name="android:textColor">@color/action_bar_title_color</item>
     </style>
 
     <style name="DrawerButton" parent="android:style/Widget.Button">

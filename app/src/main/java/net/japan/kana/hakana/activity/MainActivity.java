@@ -103,7 +103,7 @@ public class MainActivity extends BaseActivity{
             mDrawer.openDrawer(mDrawerMenu);
             getPreference().setUserKnowAboutDrawer(true);
         }else {
-            getActionBar().setTitle(getString(R.string.fast_quiz_title));
+            setTitle(getString(R.string.fast_quiz_title));
         }
     }
 
@@ -170,13 +170,13 @@ public class MainActivity extends BaseActivity{
                     break;
             }
             lastBtnClicked = -1;
-            getActionBar().setTitle(this.originTitle);
+            setTitle(this.originTitle);
         }
 
         @Override
         public void onDrawerOpened(View drawerView){
             this.originTitle = String.valueOf(getActionBar().getTitle());
-            getActionBar().setTitle(R.string.app_name);
+            setTitle(R.string.app_name);
         }
 
         public void setLastBtnClicked(int lastBtnClicked){

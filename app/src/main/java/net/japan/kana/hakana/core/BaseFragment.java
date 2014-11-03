@@ -38,6 +38,18 @@ public abstract class BaseFragment<T extends BaseActivity> extends Fragment{
     }
 
     protected void setTitle(String s){
-        mActivity.getActionBar().setTitle(s);
+        mActivity.setTitle(s);
+    }
+
+    protected void setTitle(int res){
+        mActivity.setTitle(res);
+    }
+
+    protected void setSubTitle(String s){
+        mActivity.setSubTitle(s);
+    }
+
+    protected void setSubTitle(int res){
+        mActivity.setSubTitle(res);
     }
 }
