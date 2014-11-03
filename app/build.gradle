@@ -26,12 +26,12 @@ def getVersionName = { ->
 
 android {
     compileSdkVersion 18
-    buildToolsVersion "21.0.1"
+    buildToolsVersion "21.1"
 
     defaultConfig {
         applicationId "net.japan.kana.hakana"
         minSdkVersion 15
-        targetSdkVersion 20
+        targetSdkVersion 18
         versionCode getVersionCode()
         versionName getVersionName()
     }
