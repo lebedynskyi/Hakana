@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
-</LinearLayout>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:id="@+id/kana_grid_view"
+          android:padding="0dp"
+          android:choiceMode="singleChoice"
+          android:layout_margin="0dp"
+          android:listSelector="@null"
+          android:numColumns="5"/>

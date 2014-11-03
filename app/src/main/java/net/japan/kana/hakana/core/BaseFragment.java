@@ -36,4 +36,8 @@ public abstract class BaseFragment<T extends BaseActivity> extends Fragment{
         //Base fragment should be added only for T activity
         mActivity = (T) activity;
     }
+
+    protected void setTitle(String s){
+        mActivity.getActionBar().setTitle(s);
+    }
 }

@@ -13,6 +13,13 @@
         android:layout_marginTop="1px"
         style="@style/DrawerButton"/>
     <Button
+        android:id="@+id/drawer_menu_vocab_btn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/drawer_menu_vocab"
+        android:layout_marginTop="1px"
+        style="@style/DrawerButton"/>
+    <Button
         android:id="@+id/drawer_menu_test_btn"
         android:layout_width="match_parent"
         android:layout_height="48dp"

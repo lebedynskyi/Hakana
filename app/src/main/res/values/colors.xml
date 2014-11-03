@@ -7,6 +7,10 @@
     <color name="drawer_menu_button_bg_color_active">#ffca3a0e</color>
     <!--Actionbar colors-->
     <color name="action_bar_bg_color">#ffca3a0e</color>
-    <color name="action_bar_active_item_bg">#ffec420e</color>
+
+    <!--Common colors-->
+    <color name="active_item_bg">#ffba320e</color>
+    <color name="divider_color">#ff696969</color>
     <color name="app_bg">#ffe8e1d9</color>"
+    <color name="almost_black">#ff222222</color>
 </resources>

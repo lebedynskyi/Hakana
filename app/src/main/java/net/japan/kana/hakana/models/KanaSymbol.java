@@ -4,12 +4,12 @@ package net.japan.kana.hakana.models;
  * Author Vitalii Lebedynskyi
  * Date 10/31/14
  */
-public class KanaSymbols{
+public class KanaSymbol{
     private String hiragana;
     private String katakana;
     private String englishVersion;
 
-    public KanaSymbols(String hiragana, String katakana, String englishVersion){
+    public KanaSymbol(String hiragana, String katakana, String englishVersion){
         this.hiragana = hiragana;
         this.katakana = katakana;
         this.englishVersion = englishVersion;

@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import net.japan.kana.hakana.R;
 import net.japan.kana.hakana.core.BaseActivity;
 import net.japan.kana.hakana.fragment.FastQuizFragment;
+import net.japan.kana.hakana.fragment.KanaFragment;
+import net.japan.kana.hakana.fragment.VocabListFragment;
 import net.japan.kana.hakana.widgets.DrawerArrowDrawable;
 
 import butterknife.InjectView;
@@ -28,8 +30,10 @@ public class MainActivity extends BaseActivity{
     Button mMenuAboutBtn;
     @InjectView(R.id.drawer_menu_test_btn)
     Button mMenuQuizBtn;
+    @InjectView(R.id.drawer_menu_vocab_btn)
+    Button mVocabularyBtn;
 
-    private Button[] mMenuButtons = new Button[4];
+    private Button[] mMenuButtons = new Button[5];
 
     private MenuDrawerListener mDrawerListener;
 
@@ -43,6 +47,7 @@ public class MainActivity extends BaseActivity{
         mMenuButtons[1] = mMenuSettingsBtn;
         mMenuButtons[2] = mMenuAboutBtn;
         mMenuButtons[3] = mMenuQuizBtn;
+        mMenuButtons[4] = mVocabularyBtn;
 
         initDrawer();
         showFastQuiz();
@@ -53,7 +58,7 @@ public class MainActivity extends BaseActivity{
     }
 
     private void showKana(){
-        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new KanaFragment()).commit();
     }
 
     private void showSettings(){
@@ -66,6 +71,10 @@ public class MainActivity extends BaseActivity{
 
     private void showQuiz(){
         getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
+    }
+
+    private void showVocab(){
+        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new VocabListFragment());
     }
 
     //Called when user clicks on menu in action bar
@@ -86,7 +95,7 @@ public class MainActivity extends BaseActivity{
         DrawerArrowDrawable arrow = new DrawerArrowDrawable(getResources());
         arrow.setStrokeColor(getResources().getColor(android.R.color.white));
         getActionBar().setIcon(arrow);
-        mDrawerListener = new MenuDrawerListener(arrow, getString(R.string.app_name), getString(R.string.fast_quiz_title));
+        mDrawerListener = new MenuDrawerListener(arrow);
         mDrawer.setDrawerListener(mDrawerListener);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -98,7 +107,7 @@ public class MainActivity extends BaseActivity{
         }
     }
 
-    @OnClick({R.id.drawer_menu_kana_btn, R.id.drawer_menu_settings_btn, R.id.drawer_menu_test_btn, R.id.drawer_menu_about_btn})
+    @OnClick({R.id.drawer_menu_kana_btn, R.id.drawer_menu_settings_btn, R.id.drawer_menu_test_btn, R.id.drawer_menu_about_btn, R.id.drawer_menu_vocab_btn})
     public void onDrawerMenuClicked(View v){
         mDrawer.closeDrawer(mDrawerMenu);
         if(v.isSelected()){ //Menu already chosen
@@ -120,14 +129,11 @@ public class MainActivity extends BaseActivity{
     //Response for rotating of arrow and changing of fragment when menu item was clicked
     private class MenuDrawerListener extends DrawerLayout.SimpleDrawerListener{
         private DrawerArrowDrawable arrow;
-        private final String titleForOpened;
-        private final String titleForClosed;
         private int lastBtnClicked = -1;
+        private String originTitle;
 
-        private MenuDrawerListener(DrawerArrowDrawable arrow, String titleForOpened, String titleForClosed){
+        private MenuDrawerListener(DrawerArrowDrawable arrow){
             this.arrow = arrow;
-            this.titleForOpened = titleForOpened;
-            this.titleForClosed = titleForClosed;
         }
 
         @Override
@@ -159,14 +165,18 @@ public class MainActivity extends BaseActivity{
                 case R.id.drawer_menu_test_btn:
                     showQuiz();
                     break;
+                case R.id.drawer_menu_vocab_btn:
+                    showVocab();
+                    break;
             }
             lastBtnClicked = -1;
-            getActionBar().setTitle(titleForClosed);
+            getActionBar().setTitle(this.originTitle);
         }
 
         @Override
         public void onDrawerOpened(View drawerView){
-            getActionBar().setTitle(titleForOpened);
+            this.originTitle = String.valueOf(getActionBar().getTitle());
+            getActionBar().setTitle(R.string.app_name);
         }
 
         public void setLastBtnClicked(int lastBtnClicked){
