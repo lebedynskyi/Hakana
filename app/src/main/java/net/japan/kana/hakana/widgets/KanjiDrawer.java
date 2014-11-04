@@ -2,6 +2,7 @@ package net.japan.kana.hakana.widgets;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.support.annotation.NonNull;
@@ -22,30 +23,34 @@ import java.util.List;
 public class KanjiDrawer extends View{
     public static final String TRACK_TAG = "SVGKanaDrawer";
 
-    private String mAssetFile;
     private List<Path> mPathes;
     private Paint mPaint;
+    private Matrix scaleMatrix = new Matrix();
+    private Matrix translateMatrix = new Matrix();
+    private int scale;
+    private String mAssetFile;
 
     public KanjiDrawer(Context context){
         super(context);
-        init(context);
     }
 
     public KanjiDrawer(Context context, AttributeSet attrs){
         super(context, attrs);
-        init(context);
     }
 
     public KanjiDrawer(Context context, AttributeSet attrs, int defStyleAttr){
         super(context, attrs, defStyleAttr);
-        init(context);
     }
 
-    public void init(Context context){
+    public void init(){
         mPaint = new Paint();
-        mPaint.setColor(context.getResources().getColor(R.color.view_kana_item_text_color));
-        mPaint.setStrokeWidth(ViewUtils.dpToPx(context, 3));
+        mPaint.setColor(getContext().getResources().getColor(R.color.view_kana_item_text_color));
         mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setAntiAlias(true);
+        mPaint.setStrokeWidth(ViewUtils.dpToPx(getContext(), 4));
+        int translateOffset = (int)(10.0F / getResources().getDisplayMetrics().density);
+        this.translateMatrix.setTranslate(this.scale * translateOffset, 0.0F);
+        this.scaleMatrix.setScale(scale, scale);
     }
 
     public void setKanjiFile(@NonNull String file){
@@ -69,15 +74,30 @@ public class KanjiDrawer extends View{
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
         canvas.save();
-        //TODO draw empty symbol
         if(mPathes == null || mPathes.isEmpty()){
            return;
         }
 
         for(Path p : mPathes){
+            p.transform(this.translateMatrix);
+            p.transform(this.scaleMatrix);
             canvas.drawPath(p, mPaint);
         }
         canvas.restore();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
+        if(width > height){
+            width = height;
+        }
+
+        setMeasuredDimension(width, height);
+        this.scale = width / 109;
+        init();
     }
 
     public void DrawKanji(){

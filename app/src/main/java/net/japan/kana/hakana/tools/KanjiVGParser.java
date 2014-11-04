@@ -131,7 +131,7 @@ public class KanjiVGParser{
             while(m.find()){
                 groups.add(m.group());
             }
-
+            //TODO implement command S  (0304a)
             float lastX = 0, lastY = 0;
             Iterator<String> groupIterator = groups.iterator();
             while(groupIterator.hasNext()){

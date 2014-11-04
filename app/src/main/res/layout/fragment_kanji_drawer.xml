@@ -8,7 +8,7 @@
     <net.japan.kana.hakana.widgets.KanjiDrawer android:layout_width="match_parent"
                                                android:layout_height="match_parent"
                                                android:id="@+id/kana_drawer"
-                                               android:layout_weight="0.25"/>
+                                               android:layout_weight="0.25" android:layout_gravity="center"/>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:layout_weight="0.75"/>
