@@ -8,7 +8,7 @@
     <!--Actionbar colors-->
     <color name="action_bar_bg_color">#ffca3a0e</color>
     <color name="action_bar_title_color">#ffffff</color>
-    <color name="action_bar_subtitle_color">#ffffff</color>
+    <color name="action_bar_subtitle_color">#ff232323</color>
 
     <!--Common colors-->
     <color name="active_item_bg">#ffba320e</color>
