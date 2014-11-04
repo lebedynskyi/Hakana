@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -18,33 +17,23 @@ import java.util.List;
  * Author Vitalii Lebedynskyi
  * Date 10/27/14
  */
-public class KanaDrawer extends View{
+public class KanjiDrawer extends View{
     public static final String TRACK_TAG = "SVGKanaDrawer";
 
     private String mAssetFile;
     private List<Path> mPathes;
     private Paint mPaint;
 
-    public KanaDrawer(Context context){
+    public KanjiDrawer(Context context){
         super(context);
-        init(context, null);
     }
 
-    public KanaDrawer(Context context, AttributeSet attrs){
+    public KanjiDrawer(Context context, AttributeSet attrs){
         super(context, attrs);
-        init(context, attrs);
     }
 
-    public KanaDrawer(Context context, AttributeSet attrs, int defStyleAttr){
+    public KanjiDrawer(Context context, AttributeSet attrs, int defStyleAttr){
         super(context, attrs, defStyleAttr);
-        init(context, attrs);
-    }
-
-    private void init(Context context, @Nullable AttributeSet attrs){
-        if(attrs != null){
-            //TODO init asset file
-            preparePath();
-        }
     }
 
     public void setKanjiFile(@NonNull String file){
