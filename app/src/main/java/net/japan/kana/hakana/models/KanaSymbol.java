@@ -38,4 +38,8 @@ public class KanaSymbol{
     public void setEnglishVersion(String englishVersion){
         this.englishVersion = englishVersion;
     }
+
+    public String getAscii(){
+        return "0" + Integer.toHexString((int)getHiragana().charAt(0));
+    }
 }

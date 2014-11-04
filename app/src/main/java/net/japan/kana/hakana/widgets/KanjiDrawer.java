@@ -8,8 +8,10 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 
+import net.japan.kana.hakana.R;
 import net.japan.kana.hakana.tools.KanjiVGParser;
-import net.japan.kana.hakana.tools.Tracking;
+import net.japan.kana.hakana.tools.Logging;
+import net.japan.kana.hakana.tools.ViewUtils;
 
 import java.util.List;
 
@@ -26,14 +28,24 @@ public class KanjiDrawer extends View{
 
     public KanjiDrawer(Context context){
         super(context);
+        init(context);
     }
 
     public KanjiDrawer(Context context, AttributeSet attrs){
         super(context, attrs);
+        init(context);
     }
 
     public KanjiDrawer(Context context, AttributeSet attrs, int defStyleAttr){
         super(context, attrs, defStyleAttr);
+        init(context);
+    }
+
+    public void init(Context context){
+        mPaint = new Paint();
+        mPaint.setColor(context.getResources().getColor(R.color.view_kana_item_text_color));
+        mPaint.setStrokeWidth(ViewUtils.dpToPx(context, 3));
+        mPaint.setStyle(Paint.Style.STROKE);
     }
 
     public void setKanjiFile(@NonNull String file){
@@ -49,12 +61,14 @@ public class KanjiDrawer extends View{
             mPathes = parser.getPathes();
         }catch(Exception e){
             e.printStackTrace();
-            Tracking.trackException(TRACK_TAG, "Unable to parse file " + mAssetFile, getContext());
+            Logging.trackException(getContext(), e);
         }
     }
 
     @Override
     protected void onDraw(Canvas canvas){
+        super.onDraw(canvas);
+        canvas.save();
         //TODO draw empty symbol
         if(mPathes == null || mPathes.isEmpty()){
            return;
@@ -63,5 +77,14 @@ public class KanjiDrawer extends View{
         for(Path p : mPathes){
             canvas.drawPath(p, mPaint);
         }
+        canvas.restore();
+    }
+
+    public void DrawKanji(){
+
+    }
+
+    public void stopDrawKanji(){
+
     }
 }

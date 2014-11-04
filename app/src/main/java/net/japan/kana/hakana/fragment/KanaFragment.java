@@ -1,6 +1,8 @@
 package net.japan.kana.hakana.fragment;
 
+import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.AdapterView;
@@ -37,6 +39,7 @@ public class KanaFragment extends BaseFragment<MainActivity>{
     private KanaType kanatype = KanaType.HIRAGANA;
     private KanaSymbolAdapter kanaAdapter;
     private KanaSymbolAdapter.KanaType currentType = KanaSymbolAdapter.KanaType.HIRAGANA;
+    private KanjiDrawerFragment drawerFragment;;
 
     @InjectView(R.id.kana_grid_view)
     GridView kanaGrid;
@@ -78,9 +81,12 @@ public class KanaFragment extends BaseFragment<MainActivity>{
     private AdapterView.OnItemClickListener symbolClickListener = new AdapterView.OnItemClickListener(){
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-            kanaAdapter.setSelectedPosition(position);
+            KanaSymbol clickedSymbol = kanaAdapter.getItem(position);
+            if(drawerFragment == null){
+                drawerFragment = (KanjiDrawerFragment) getFragmentManager().findFragmentById(R.id.kanji_drawer_container);
+            }
 
-            //TODO refresh fragment in drawable
+            drawerFragment.setKanjiSymbol(clickedSymbol);
         }
     };
 }

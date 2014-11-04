@@ -1,5 +1,6 @@
 package net.japan.kana.hakana.core;
 
+import net.japan.kana.hakana.BuildConfig;
 import net.japan.kana.hakana.models.KanaSymbol;
 
 /**
@@ -8,7 +9,7 @@ import net.japan.kana.hakana.models.KanaSymbol;
  */
 public final class Const{
     public static class Core{
-        public static final boolean LOGABLE = true;
+        public static final boolean LOGABLE = BuildConfig.DEBUG;
         public static final String DEFAULT_LOG_TAG = "Hakana log --- >>>>";
     }
 

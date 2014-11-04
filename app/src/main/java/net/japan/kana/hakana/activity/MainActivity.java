@@ -1,5 +1,8 @@
 package net.japan.kana.hakana.activity;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
@@ -9,12 +12,19 @@ import android.widget.LinearLayout;
 
 import net.japan.kana.hakana.R;
 import net.japan.kana.hakana.core.BaseActivity;
+import net.japan.kana.hakana.fragment.AboutFragment;
 import net.japan.kana.hakana.fragment.FastQuizFragment;
 import net.japan.kana.hakana.fragment.KanaFragment;
+import net.japan.kana.hakana.fragment.QuizFragment;
+import net.japan.kana.hakana.fragment.SettingsFragment;
 import net.japan.kana.hakana.fragment.VocabListFragment;
+import net.japan.kana.hakana.tools.Logging;
 import net.japan.kana.hakana.widgets.DrawerArrowDrawable;
 
+import java.util.List;
+
 import butterknife.InjectView;
+import butterknife.InjectViews;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity{
@@ -22,59 +32,77 @@ public class MainActivity extends BaseActivity{
     DrawerLayout mDrawer;
     @InjectView(R.id.layout_drawer_menu)
     LinearLayout mDrawerMenu;
-    @InjectView(R.id.drawer_menu_kana_btn)
-    Button mMenuKanaBtn;
-    @InjectView(R.id.drawer_menu_settings_btn)
-    Button mMenuSettingsBtn;
-    @InjectView(R.id.drawer_menu_about_btn)
-    Button mMenuAboutBtn;
-    @InjectView(R.id.drawer_menu_test_btn)
-    Button mMenuQuizBtn;
-    @InjectView(R.id.drawer_menu_vocab_btn)
-    Button mVocabularyBtn;
 
-    private Button[] mMenuButtons = new Button[5];
+    @InjectViews({R.id.drawer_menu_kana_btn, R.id.drawer_menu_settings_btn, R.id.drawer_menu_about_btn,
+            R.id.drawer_menu_test_btn, R.id.drawer_menu_vocab_btn})
+    List<Button> mMenuButtons;
 
     private MenuDrawerListener mDrawerListener;
+
+    //Just need save it for
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //initializing of array of menu items
-        mMenuButtons[0] = mMenuKanaBtn;
-        mMenuButtons[1] = mMenuSettingsBtn;
-        mMenuButtons[2] = mMenuAboutBtn;
-        mMenuButtons[3] = mMenuQuizBtn;
-        mMenuButtons[4] = mVocabularyBtn;
-
         initDrawer();
         showFastQuiz();
     }
 
     private void showFastQuiz(){
-        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
+        showFragment(FastQuizFragment.class);
     }
 
     private void showKana(){
-        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new KanaFragment()).commit();
+        showFragment(KanaFragment.class);
     }
 
     private void showSettings(){
-        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
+        showFragment(SettingsFragment.class);
     }
 
     private void showAbout(){
-        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
+        showFragment(AboutFragment.class);
     }
 
     private void showQuiz(){
-        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new FastQuizFragment()).commit();
+        showFragment(QuizFragment.class);
     }
 
     private void showVocab(){
-        getFragmentManager().beginTransaction().replace(R.id.main_fragment_container, new VocabListFragment());
+        showFragment(VocabListFragment.class);
+    }
+
+    private void showFragment(Class<? extends Fragment> clazz){
+        String fragmentTag = clazz.getSimpleName();
+        Fragment fr = getFragmentManager().findFragmentByTag(fragmentTag);
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction tr = fm.beginTransaction();
+
+        if(currentFragment != null){
+            tr.hide(currentFragment);
+        }
+
+        if(fr == null){
+            try{
+                //Creating and adding new fragment
+                fr = clazz.newInstance();
+                Logging.d("Created new instance of " + fragmentTag + "/" + fr.toString());
+                tr.add(R.id.main_fragment_container, fr, fragmentTag);
+            }catch(Exception e){
+                e.printStackTrace();
+                Logging.e("Cannot instantiate fragment for class -> " + fragmentTag);
+                return;
+            }
+        }else {
+            Logging.d("Reusing fragment for -> " + fragmentTag);
+            //showing existing fragment
+            tr.show(fr);
+        }
+        this.currentFragment = fr;
+        tr.commit();
     }
 
     //Called when user clicks on menu in action bar
@@ -102,7 +130,7 @@ public class MainActivity extends BaseActivity{
         if(!getPreference().isUserKnowAboutDrawer()){
             mDrawer.openDrawer(mDrawerMenu);
             getPreference().setUserKnowAboutDrawer(true);
-        }else {
+        }else{
             setTitle(getString(R.string.fast_quiz_title));
         }
     }
@@ -115,7 +143,7 @@ public class MainActivity extends BaseActivity{
         }
 
         //deselecting all menu items
-        for (Button b: mMenuButtons){
+        for(Button b : mMenuButtons){
             b.setSelected(false);
         }
 
@@ -139,9 +167,9 @@ public class MainActivity extends BaseActivity{
         @Override
         public void onDrawerSlide(View view, float slideOffset){
             // Sometimes slideOffset ends up so close to but not quite 1 or 0.
-            if (slideOffset >= .995) {
+            if(slideOffset >= .995){
                 arrow.setFlip(true);
-            } else if (slideOffset <= .005) {
+            }else if(slideOffset <= .005){
                 arrow.setFlip(false);
             }
 

@@ -2,6 +2,7 @@ package net.japan.kana.hakana.tools;
 
 import android.content.Context;
 import android.graphics.Path;
+import android.graphics.PathMeasure;
 import android.graphics.Point;
 
 import org.xml.sax.Attributes;
@@ -174,6 +175,11 @@ public class KanjiVGParser{
                     throw new RuntimeException("unknown command [" + token + "]");
                 }
             }
+            PathMeasure pathMeasure = new PathMeasure(p, false);
+            float[] startPoint = new float[2];
+            pathMeasure.getPosTan(0, startPoint, null);
+            p.moveTo(startPoint[0], startPoint[1]);
+            p.close();
             return p;
         }
     }

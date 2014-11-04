@@ -1,5 +1,6 @@
 package net.japan.kana.hakana.tools;
 
+import android.content.Context;
 import android.util.Log;
 
 import net.japan.kana.hakana.core.Const;
@@ -35,5 +36,10 @@ public class Logging{
 
     public static void d(String msg){
         d(Const.Core.DEFAULT_LOG_TAG, msg);
+    }
+
+    //TODO implement
+    public static void trackException(Context context, Exception e){
+
     }
 }
