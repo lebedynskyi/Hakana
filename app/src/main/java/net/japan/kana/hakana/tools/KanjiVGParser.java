@@ -131,7 +131,9 @@ public class KanjiVGParser{
             while(m.find()){
                 groups.add(m.group());
             }
-            //TODO implement command S  (0304a)
+            //TODO implement command S and s  (0304a)
+            //C x1 y1, x2 y2, x y (or c dx1 dy1, dx2 dy2, dx dy)
+            //S x2 y2, x y (or s dx2 dy2, dx dy)  so i think x1 y1 is last point
             float lastX = 0, lastY = 0;
             Iterator<String> groupIterator = groups.iterator();
             while(groupIterator.hasNext()){
@@ -153,28 +155,44 @@ public class KanjiVGParser{
                     float y1 = Float.valueOf(groupIterator.next());
                     float x2 = Float.valueOf(groupIterator.next());
                     float y2 = Float.valueOf(groupIterator.next());
-                    float x3 = Float.valueOf(groupIterator.next());
-                    float y3 = Float.valueOf(groupIterator.next());
-                    p.cubicTo(x1, y1, x2, y2, x3, y3);
-                    lastX = x3;
-                    lastY = y3;
+                    float x = Float.valueOf(groupIterator.next());
+                    float y = Float.valueOf(groupIterator.next());
+                    p.cubicTo(x1, y1, x2, y2, x, y);
+                    lastX = x;
+                    lastY = y;
                 }else if(token.equals("z")){
                     p.close();
                 }else if(token.equals("c")){
-                    //TODO not checked
-                    float x1 = Float.valueOf(groupIterator.next()) + lastX;
-                    float y1 = Float.valueOf(groupIterator.next()) + lastY;
-                    float x2 = Float.valueOf(groupIterator.next()) + lastX;
-                    float y2 = Float.valueOf(groupIterator.next()) + lastY;
-                    float x3 = Float.valueOf(groupIterator.next()) + lastX;
-                    float y3 = Float.valueOf(groupIterator.next()) + lastY;
-                    p.cubicTo(x1, y1, x2, y2, x3, y3);
-                    lastX = x3;
-                    lastY = y3;
+                    float dx1 = Float.valueOf(groupIterator.next()) + lastX;
+                    float dy1 = Float.valueOf(groupIterator.next()) + lastY;
+                    float dx2 = Float.valueOf(groupIterator.next()) + lastX;
+                    float dy2 = Float.valueOf(groupIterator.next()) + lastY;
+                    float dx = Float.valueOf(groupIterator.next()) + lastX;
+                    float dy = Float.valueOf(groupIterator.next()) + lastY;
+                    p.cubicTo(dx1, dy1, dx2, dy2, dx, dy);
+                    lastX = dx;
+                    lastY = dy;
+                }else if(token.equals("s")){ //Not implemented
+                    float dx2 = Float.valueOf(groupIterator.next()) + lastX;
+                    float dy2 = Float.valueOf(groupIterator.next()) + lastY;
+                    float dx = Float.valueOf(groupIterator.next()) + lastX;
+                    float dy = Float.valueOf(groupIterator.next()) + lastY;
+                    p.cubicTo(lastX, lastY, dx2, dy2, dx, dy);
+                    lastX = dx;
+                    lastY = dy;
+                }else if(token.equals("S")){ //Not implemented
+                    float x2 = Float.valueOf(groupIterator.next());
+                    float y2 = Float.valueOf(groupIterator.next());
+                    float x = Float.valueOf(groupIterator.next());
+                    float y = Float.valueOf(groupIterator.next());
+                    p.cubicTo(lastX, lastY, x2, y2, x, y);
+                    lastX = x;
+                    lastY = y;
                 }else {
                     throw new RuntimeException("unknown command [" + token + "]");
                 }
             }
+            //move to first point
             PathMeasure pathMeasure = new PathMeasure(p, false);
             float[] startPoint = new float[2];
             pathMeasure.getPosTan(0, startPoint, null);
