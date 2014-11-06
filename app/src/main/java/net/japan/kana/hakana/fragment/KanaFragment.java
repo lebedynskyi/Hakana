@@ -68,7 +68,7 @@ public class KanaFragment extends BaseFragment<MainActivity>{
         super.onActivityCreated(savedInstanceState);
         kanaGrid.setAdapter(kanaAdapter);
         kanaGrid.setOnItemClickListener(symbolClickListener);
-        setSubTitle(R.string.hiragana);
+        setTitle(R.string.hiragana);
         refreshState();
     }
 
