@@ -10,6 +10,8 @@ import android.preference.PreferenceManager;
  */
 public class AppPreference{
     public static final String IS_USER_KNOW_DRAWER = "is_user_know_drawer";
+    public static final String IS_USER_KNOW_KANJI_DRAWER = "is_user_know_kanji_drawer";
+
     private final SharedPreferences mSharedPrefs;
 
     public AppPreference(Context context){
@@ -21,6 +23,14 @@ public class AppPreference{
     }
 
     public void setUserKnowAboutDrawer(boolean value){
-        mSharedPrefs.edit().putBoolean(IS_USER_KNOW_DRAWER, value).commit();
+        mSharedPrefs.edit().putBoolean(IS_USER_KNOW_DRAWER, value).apply();
+    }
+
+    public boolean isUserKnowAboutKanjiDrawer(){
+        return mSharedPrefs.getBoolean(IS_USER_KNOW_KANJI_DRAWER, false);
+    }
+
+    public void setUserKnowAboutKanjiDrawer(boolean value){
+        mSharedPrefs.edit().putBoolean(IS_USER_KNOW_KANJI_DRAWER, value).apply();
     }
 }

@@ -6,9 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import butterknife.ButterKnife;
 
 /**
@@ -16,13 +13,12 @@ import butterknife.ButterKnife;
  * Date 10/24/14
  */
 public class BaseActivity extends Activity{
-    protected Tracker mTracker;
+
+    private AppPreference preference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        mTracker = ((App)getApplication()).getTracker();
-        mTracker.setScreenName(getClass().getName());
-        mTracker.send(new HitBuilders.AppViewBuilder().build());
     }
 
     @Override
@@ -34,8 +30,12 @@ public class BaseActivity extends Activity{
     }
 
     public AppPreference getPreference(){
-        App app = (App) getApplication();
-        return app.getPreference();
+        if(preference == null){
+            App app = (App) getApplication();
+            preference = app.getPreference();
+        }
+
+        return preference;
     }
 
     @Override

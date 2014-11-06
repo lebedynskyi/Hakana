@@ -1,9 +1,8 @@
 package net.japan.kana.hakana.fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -43,6 +42,10 @@ public class KanaFragment extends BaseFragment<MainActivity>{
 
     @InjectView(R.id.kana_grid_view)
     GridView kanaGrid;
+    @InjectView(R.id.kanji_drawer_container)
+    View mKanjiDrawerContainer;
+    @InjectView(R.id.kanji_drawer_layout)
+    DrawerLayout mDrawerLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -86,6 +89,12 @@ public class KanaFragment extends BaseFragment<MainActivity>{
                 drawerFragment = (KanjiDrawerFragment) getFragmentManager().findFragmentById(R.id.kanji_drawer_container);
             }
 
+            if(!mActivity.getPreference().isUserKnowAboutKanjiDrawer()){
+                mActivity.getPreference().setUserKnowAboutKanjiDrawer(true);
+                if(!mDrawerLayout.isDrawerOpen(mKanjiDrawerContainer)){
+                    mDrawerLayout.openDrawer(mKanjiDrawerContainer);
+                }
+            }
             drawerFragment.setKanjiSymbol(clickedSymbol);
         }
     };

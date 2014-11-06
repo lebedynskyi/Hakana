@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import butterknife.ButterKnife;
 
 /**
@@ -16,6 +19,19 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment<T extends BaseActivity> extends Fragment{
     protected T mActivity;
+    private Tracker mTracker;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        try{
+            mTracker = ((App)getActivity().getApplication()).getTracker();
+            mTracker.setScreenName(getClass().getName());
+            mTracker.send(new HitBuilders.AppViewBuilder().build());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
     @Nullable
     @Override
