@@ -39,7 +39,11 @@ public class KanaSymbol {
         this.englishVersion = englishVersion;
     }
 
-    public String getAscii() {
+    public String getHiraganaAscii() {
         return "0" + Integer.toHexString((int) getHiragana().charAt(0));
+    }
+
+    public String getKatakanaAscii() {
+        return "0" + Integer.toHexString((int) getKatakana().charAt(0));
     }
 }

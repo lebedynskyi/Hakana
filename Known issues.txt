@@ -1,0 +1,1 @@
+1) Disappearing of kana handwritten symbol after rotation  -> Fixed by hack (delay 150 ms)

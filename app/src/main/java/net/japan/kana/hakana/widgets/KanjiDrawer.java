@@ -77,11 +77,12 @@ public class KanjiDrawer extends View {
         super.onDraw(canvas);
         canvas.save();
         if (mPathes == null || mPathes.isEmpty()) {
+            Logging.e(TRACK_TAG, "mPathes == null || mPathes.isEmpty()");
             return;
         }
 
         if (mIsAnimation) {
-            //TODO calculate path..git
+            //TODO calculate path
             for (Path p : mPathes) {
                 p.transform(this.mTranslateMatrix);
                 p.transform(this.mScaleMatrix);
@@ -109,7 +110,7 @@ public class KanjiDrawer extends View {
             width = height;
         }
 
-        setMeasuredDimension(width, height);
+        setMeasuredDimension(width, width);
         this.mScale = width / 109;
         init();
     }

@@ -96,7 +96,7 @@ public class KanaFragment extends BaseFragment<MainActivity> {
                     mDrawerLayout.openDrawer(mKanjiDrawerContainer);
                 }
             }
-            drawerFragment.setKanjiSymbol(clickedSymbol);
+            drawerFragment.setKanjiSymbol(clickedSymbol, true);
         }
     };
 }
