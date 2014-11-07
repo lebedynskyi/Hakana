@@ -15,15 +15,15 @@ import net.japan.kana.hakana.core.BaseFragment;
  * Date 10/30/14
  */
 public class FastQuizFragment extends BaseFragment<MainActivity>{
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
-        setTitle(getString(R.string.fast_quiz_title));
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        setTitle(getString(R.string.fast_quiz_title));
     }
 }

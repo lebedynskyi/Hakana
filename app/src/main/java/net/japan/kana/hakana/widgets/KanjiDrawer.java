@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
@@ -25,10 +26,11 @@ public class KanjiDrawer extends View{
 
     private List<Path> mPathes;
     private Paint mPaint;
-    private Matrix scaleMatrix = new Matrix();
-    private Matrix translateMatrix = new Matrix();
-    private int scale;
+    private Matrix mScaleMatrix = new Matrix();
+    private Matrix mTranslateMatrix = new Matrix();
+    private int mScale;
     private String mAssetFile;
+    private boolean mIsAnimation;
 
     public KanjiDrawer(Context context){
         super(context);
@@ -49,8 +51,8 @@ public class KanjiDrawer extends View{
         mPaint.setAntiAlias(true);
         mPaint.setStrokeWidth(ViewUtils.dpToPx(getContext(), 4));
         int translateOffset = (int)(10.0F / getResources().getDisplayMetrics().density);
-        this.translateMatrix.setTranslate(this.scale * translateOffset, 0.0F);
-        this.scaleMatrix.setScale(scale, scale);
+        this.mTranslateMatrix.setTranslate(this.mScale * translateOffset, 0.0F);
+        this.mScaleMatrix.setScale(mScale, mScale);
     }
 
     public void setKanjiFile(@NonNull String file){
@@ -78,12 +80,24 @@ public class KanjiDrawer extends View{
            return;
         }
 
-        for(Path p : mPathes){
-            p.transform(this.translateMatrix);
-            p.transform(this.scaleMatrix);
-            canvas.drawPath(p, mPaint);
+        if(mIsAnimation){
+            //TODO calculate path..git
+            for(Path p : mPathes){
+                p.transform(this.mTranslateMatrix);
+                p.transform(this.mScaleMatrix);
+                canvas.drawPath(p, mPaint);
+            }
+            postDelayed(poster, 50);
+        }else{
+            for(Path p : mPathes){
+                p.transform(this.mTranslateMatrix);
+                p.transform(this.mScaleMatrix);
+                canvas.drawPath(p, mPaint);
+            }
         }
+
         canvas.restore();
+
     }
 
     @Override
@@ -96,15 +110,18 @@ public class KanjiDrawer extends View{
         }
 
         setMeasuredDimension(width, height);
-        this.scale = width / 109;
+        this.mScale = width / 109;
         init();
     }
 
-    public void DrawKanji(){
-
+    public void setAnimation(boolean value){
+        mIsAnimation = value;
     }
 
-    public void stopDrawKanji(){
-
-    }
+    private Runnable poster = new Runnable() {
+        @Override
+        public void run() {
+            invalidate();
+        }
+    };
 }

@@ -158,7 +158,6 @@ public class MainActivity extends BaseActivity{
     private class MenuDrawerListener extends DrawerLayout.SimpleDrawerListener{
         private DrawerArrowDrawable arrow;
         private int lastBtnClicked = -1;
-        private String originTitle;
 
         private MenuDrawerListener(DrawerArrowDrawable arrow){
             this.arrow = arrow;
@@ -198,15 +197,10 @@ public class MainActivity extends BaseActivity{
                     break;
             }
             lastBtnClicked = -1;
-            setTitle(this.originTitle);
         }
 
         @Override
-        public void onDrawerOpened(View drawerView){
-            this.originTitle = String.valueOf(getActionBar().getTitle());
-            setTitle(R.string.app_name);
-        }
-
+        public void onDrawerOpened(View drawerView){}
         public void setLastBtnClicked(int lastBtnClicked){
             this.lastBtnClicked = lastBtnClicked;
         }
