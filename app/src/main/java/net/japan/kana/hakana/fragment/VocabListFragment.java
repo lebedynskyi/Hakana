@@ -12,7 +12,7 @@ import net.japan.kana.hakana.core.BaseFragment;
  * Author Vitalii Lebedynskyi
  * Date 11/3/14
  */
-public class VocabListFragment extends BaseFragment<MainActivity>{
+public class VocabListFragment extends BaseFragment<MainActivity> {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -8,7 +8,7 @@
         <CheckBoxPreference
                 android:key="checkbox_preference"
                 android:title="Checkbox title"
-                android:summary="Checkbox summary" />
+                android:summary="Checkbox summary"/>
 
     </PreferenceCategory>
 
@@ -19,7 +19,7 @@
                 android:key="edittext_preference"
                 android:title="Edit text title"
                 android:summary="Edit text summary"
-                android:dialogTitle="Edit text dialog title" />
+                android:dialogTitle="Edit text dialog title"/>
 
         <ListPreference
                 android:key="list_preference"
@@ -27,7 +27,7 @@
                 android:summary="List summary"
                 android:entries="@array/pref_array_entry"
                 android:entryValues="@array/pref_array_entry_two"
-                android:dialogTitle="Dialog list title" />
+                android:dialogTitle="Dialog list title"/>
 
     </PreferenceCategory>
 
@@ -47,7 +47,7 @@
             <CheckBoxPreference
                     android:key="next_screen_checkbox_preference"
                     android:title="Checkbox title"
-                    android:summary="Summary" />
+                    android:summary="Summary"/>
 
         </PreferenceScreen>
 
@@ -56,7 +56,7 @@
                 android:summary="Sunnary of preference screen">
 
             <intent android:action="android.intent.action.VIEW"
-                    android:data="http://www.android.com" />
+                    android:data="http://www.android.com"/>
 
         </PreferenceScreen>
 
@@ -68,7 +68,7 @@
         <CheckBoxPreference
                 android:key="parent_checkbox_preference"
                 android:title="Checkbox title"
-                android:summary="Summary" />
+                android:summary="Summary"/>
 
         <!-- The visual style of a child is defined by this styled theme attribute. -->
         <CheckBoxPreference
@@ -76,7 +76,7 @@
                 android:dependency="parent_checkbox_preference"
                 android:layout="?android:attr/preferenceLayoutChild"
                 android:title="Checkbox title"
-                android:summary="Summary" />
+                android:summary="Summary"/>
 
     </PreferenceCategory>
 

@@ -11,10 +11,11 @@ import net.japan.kana.hakana.core.BaseActivity;
  * Author Vitalii Lebedynskyi
  * Date 10/30/14
  */
-public class SettingsFragment extends PreferenceFragment{
+public class SettingsFragment extends PreferenceFragment {
     private BaseActivity activity;
+
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.prefrence_screen);
     }

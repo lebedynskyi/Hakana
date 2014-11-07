@@ -19,8 +19,8 @@ import butterknife.InjectView;
  * Author Vitalii Lebedynskyi
  * Date 11/3/14
  */
-public class KanaSymbolAdapter extends BaseAdapter{
-    public static enum KanaType{
+public class KanaSymbolAdapter extends BaseAdapter {
+    public static enum KanaType {
         HIRAGANA, KATKANA
     }
 
@@ -28,34 +28,34 @@ public class KanaSymbolAdapter extends BaseAdapter{
     private KanaType type;
     private int selectedPosition;
 
-    public KanaSymbolAdapter(KanaType type, List<KanaSymbol> data){
+    public KanaSymbolAdapter(KanaType type, List<KanaSymbol> data) {
         this.type = type;
         this.mData = data;
     }
 
     @Override
-    public int getCount(){
+    public int getCount() {
         return mData.size();
     }
 
     @Override
-    public KanaSymbol getItem(int position){
+    public KanaSymbol getItem(int position) {
         return mData.get(position);
     }
 
     @Override
-    public long getItemId(int position){
+    public long getItemId(int position) {
         return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if(convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_kana_item, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-        }else{
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
@@ -77,14 +77,16 @@ public class KanaSymbolAdapter extends BaseAdapter{
         return !TextUtils.isEmpty(mData.get(position).getHiragana());
     }
 
-    public void setSelectedPosition(int selectedPosition){
+    public void setSelectedPosition(int selectedPosition) {
         this.selectedPosition = selectedPosition;
         notifyDataSetChanged();
     }
 
     static class ViewHolder {
-        @InjectView(R.id.kana_pronounce) TextView kanaPronounce;
-        @InjectView(R.id.kana_symbol) TextView kanaSymbol;
+        @InjectView(R.id.kana_pronounce)
+        TextView kanaPronounce;
+        @InjectView(R.id.kana_symbol)
+        TextView kanaSymbol;
 
         public ViewHolder(View view) {
             ButterKnife.inject(this, view);

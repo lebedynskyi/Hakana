@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v4.widget.DrawerLayout android:id="@+id/kanji_drawer_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:android="http://schemas.android.com/apk/res/android"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent">
 
     <GridView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/kana_grid_view"
-        android:padding="0dp"
-        android:choiceMode="singleChoice"
-        android:layout_margin="0dp"
-        android:listSelector="#00000000"
-        android:numColumns="5"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/kana_grid_view"
+            android:padding="0dp"
+            android:choiceMode="singleChoice"
+            android:layout_margin="0dp"
+            android:listSelector="#00000000"
+            android:numColumns="5"/>
 
     <fragment
-        class="net.japan.kana.hakana.fragment.KanjiDrawerFragment"
-        android:id="@+id/kanji_drawer_container"
-        android:layout_height="match_parent"
-        android:layout_width="320dp"
-        android:layout_gravity="end">
+            class="net.japan.kana.hakana.fragment.KanjiDrawerFragment"
+            android:id="@+id/kanji_drawer_container"
+            android:layout_height="match_parent"
+            android:layout_width="320dp"
+            android:layout_gravity="end">
     </fragment>
 </android.support.v4.widget.DrawerLayout>

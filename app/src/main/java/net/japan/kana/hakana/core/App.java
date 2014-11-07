@@ -11,17 +11,17 @@ import net.japan.kana.hakana.R;
  * Author Vitalii Lebedynskyi
  * Date 10/28/14
  */
-public class App extends Application{
+public class App extends Application {
     private AppPreference mPreference;
     private Tracker mTracker;
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
         initConfig();
     }
 
-    private void initConfig(){
+    private void initConfig() {
         mPreference = new AppPreference(this);
     }
 
@@ -33,7 +33,7 @@ public class App extends Application{
         return mTracker;
     }
 
-    public AppPreference getPreference(){
+    public AppPreference getPreference() {
         return mPreference;
     }
 }

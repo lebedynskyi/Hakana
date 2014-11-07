@@ -10,21 +10,21 @@ import net.japan.kana.hakana.core.Const;
  * Author Vitalii Lebedynskyi
  * Date 10/24/14
  */
-public class SQLiteDBHelper extends SQLiteOpenHelper{
+public class SQLiteDBHelper extends SQLiteOpenHelper {
     public static final int VERSION = Const.DB.VERSION;
     public static final String NAME = Const.DB.NAME;
 
-    public SQLiteDBHelper(Context context){
+    public SQLiteDBHelper(Context context) {
         super(context, NAME, null, VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase){
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2){
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
 
     }
 }

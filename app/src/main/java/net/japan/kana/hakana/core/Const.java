@@ -7,21 +7,21 @@ import net.japan.kana.hakana.models.KanaSymbol;
  * Author Vitalii Lebedynskyi
  * Date 10/24/14
  */
-public final class Const{
-    public static class Core{
+public final class Const {
+    public static class Core {
         public static final boolean LOGABLE = BuildConfig.DEBUG;
         public static final String DEFAULT_LOG_TAG = "Hakana log --- >>>>";
     }
 
-    public static class DB{
+    public static class DB {
         public static final int VERSION = 1;
         public static final String NAME = "Hakana.db";
     }
 
-    public static class Kana{
+    public static class Kana {
         private static KanaSymbol[] seionKana;
 
-        static{
+        static {
             seionKana = new KanaSymbol[]{
                     new KanaSymbol("あ", "ア", "a"),
                     new KanaSymbol("い", "イ", "i"),
@@ -81,7 +81,7 @@ public final class Const{
             };
         }
 
-        public static KanaSymbol[] getSeionKana(){
+        public static KanaSymbol[] getSeionKana() {
             return seionKana;
         }
     }

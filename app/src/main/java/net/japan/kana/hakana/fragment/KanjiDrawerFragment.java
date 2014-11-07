@@ -39,17 +39,17 @@ public class KanjiDrawerFragment extends BaseFragment<MainActivity> {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public void setKanjiSymbol(KanaSymbol clickedSymbol){
+    public void setKanjiSymbol(KanaSymbol clickedSymbol) {
         Toast.makeText(mActivity, clickedSymbol.getHiragana() + " ->> " + clickedSymbol.getAscii(), Toast.LENGTH_SHORT).show();
         this.kanjiSymbol = clickedSymbol;
         kanaDrawer.setKanjiFile("kana/" + clickedSymbol.getAscii());
     }
 
-    public void startDraw(){
+    public void startDraw() {
 
     }
 
-    public void stopDraw(){
+    public void stopDraw() {
 
     }
 }

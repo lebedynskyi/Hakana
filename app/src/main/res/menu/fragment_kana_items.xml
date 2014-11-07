@@ -2,24 +2,24 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="@string/kana_scripts"
-        android:icon="@android:drawable/ic_menu_help"
-        android:showAsAction="ifRoom"/>
+            android:title="@string/kana_scripts"
+            android:icon="@android:drawable/ic_menu_help"
+            android:showAsAction="ifRoom"/>
 
     <item
-        android:title="@string/diacritics"
-        android:icon="@android:drawable/ic_menu_help"
-        android:showAsAction="ifRoom">
+            android:title="@string/diacritics"
+            android:icon="@android:drawable/ic_menu_help"
+            android:showAsAction="ifRoom">
         <menu>
             <item
-                android:id="@+id/diacritics_seion"
-                android:title="@string/diacritics_seion"/>
+                    android:id="@+id/diacritics_seion"
+                    android:title="@string/diacritics_seion"/>
             <item
-                android:id="@+id/diacritics_dakuon"
-                android:title="@string/diacritics_dakuon"/>
+                    android:id="@+id/diacritics_dakuon"
+                    android:title="@string/diacritics_dakuon"/>
             <item
-                android:id="@+id/diacritics_youon"
-                android:title="@string/diacritics_youon"/>
+                    android:id="@+id/diacritics_youon"
+                    android:title="@string/diacritics_youon"/>
         </menu>
     </item>
 </menu>

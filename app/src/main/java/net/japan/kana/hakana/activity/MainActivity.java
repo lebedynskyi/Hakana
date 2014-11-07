@@ -27,7 +27,7 @@ import butterknife.InjectView;
 import butterknife.InjectViews;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity {
     @InjectView(R.id.layout_drawer)
     DrawerLayout mDrawer;
     @InjectView(R.id.layout_drawer_menu)
@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity{
     private Fragment currentFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -51,52 +51,52 @@ public class MainActivity extends BaseActivity{
         showFastQuiz();
     }
 
-    private void showFastQuiz(){
+    private void showFastQuiz() {
         showFragment(FastQuizFragment.class);
     }
 
-    private void showKana(){
+    private void showKana() {
         showFragment(KanaFragment.class);
     }
 
-    private void showSettings(){
+    private void showSettings() {
         showFragment(SettingsFragment.class);
     }
 
-    private void showAbout(){
+    private void showAbout() {
         showFragment(AboutFragment.class);
     }
 
-    private void showQuiz(){
+    private void showQuiz() {
         showFragment(QuizFragment.class);
     }
 
-    private void showVocab(){
+    private void showVocab() {
         showFragment(VocabListFragment.class);
     }
 
-    private void showFragment(Class<? extends Fragment> clazz){
+    private void showFragment(Class<? extends Fragment> clazz) {
         String fragmentTag = clazz.getSimpleName();
         Fragment fr = getFragmentManager().findFragmentByTag(fragmentTag);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction tr = fm.beginTransaction();
 
-        if(currentFragment != null){
+        if (currentFragment != null) {
             tr.hide(currentFragment);
         }
 
-        if(fr == null){
-            try{
+        if (fr == null) {
+            try {
                 //Creating and adding new fragment
                 fr = clazz.newInstance();
                 Logging.d("Created new instance of " + fragmentTag + "/" + fr.toString());
                 tr.add(R.id.main_fragment_container, fr, fragmentTag);
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 Logging.e("Cannot instantiate fragment for class -> " + fragmentTag);
                 return;
             }
-        }else {
+        } else {
             Logging.d("Reusing fragment for -> " + fragmentTag);
             //showing existing fragment
             tr.show(fr);
@@ -107,11 +107,11 @@ public class MainActivity extends BaseActivity{
 
     //Called when user clicks on menu in action bar
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId() == android.R.id.home){
-            if(mDrawer.isDrawerOpen(mDrawerMenu)){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (mDrawer.isDrawerOpen(mDrawerMenu)) {
                 mDrawer.closeDrawer(mDrawerMenu);
-            }else{
+            } else {
                 mDrawer.openDrawer(mDrawerMenu);
             }
         }
@@ -119,7 +119,7 @@ public class MainActivity extends BaseActivity{
     }
 
     //Initializing of drawer and arrow on the action bar
-    private void initDrawer(){
+    private void initDrawer() {
         DrawerArrowDrawable arrow = new DrawerArrowDrawable(getResources());
         arrow.setStrokeColor(getResources().getColor(android.R.color.white));
         getActionBar().setIcon(arrow);
@@ -127,23 +127,23 @@ public class MainActivity extends BaseActivity{
         mDrawer.setDrawerListener(mDrawerListener);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if(!getPreference().isUserKnowAboutDrawer()){
+        if (!getPreference().isUserKnowAboutDrawer()) {
             mDrawer.openDrawer(mDrawerMenu);
             getPreference().setUserKnowAboutDrawer(true);
-        }else{
+        } else {
             setTitle(getString(R.string.fast_quiz_title));
         }
     }
 
     @OnClick({R.id.drawer_menu_kana_btn, R.id.drawer_menu_settings_btn, R.id.drawer_menu_test_btn, R.id.drawer_menu_about_btn, R.id.drawer_menu_vocab_btn})
-    public void onDrawerMenuClicked(View v){
+    public void onDrawerMenuClicked(View v) {
         mDrawer.closeDrawer(mDrawerMenu);
-        if(v.isSelected()){ //Menu already chosen
+        if (v.isSelected()) { //Menu already chosen
             return;
         }
 
         //deselecting all menu items
-        for(Button b : mMenuButtons){
+        for (Button b : mMenuButtons) {
             b.setSelected(false);
         }
 
@@ -155,20 +155,20 @@ public class MainActivity extends BaseActivity{
     }
 
     //Response for rotating of arrow and changing of fragment when menu item was clicked
-    private class MenuDrawerListener extends DrawerLayout.SimpleDrawerListener{
+    private class MenuDrawerListener extends DrawerLayout.SimpleDrawerListener {
         private DrawerArrowDrawable arrow;
         private int lastBtnClicked = -1;
 
-        private MenuDrawerListener(DrawerArrowDrawable arrow){
+        private MenuDrawerListener(DrawerArrowDrawable arrow) {
             this.arrow = arrow;
         }
 
         @Override
-        public void onDrawerSlide(View view, float slideOffset){
+        public void onDrawerSlide(View view, float slideOffset) {
             // Sometimes slideOffset ends up so close to but not quite 1 or 0.
-            if(slideOffset >= .995){
+            if (slideOffset >= .995) {
                 arrow.setFlip(true);
-            }else if(slideOffset <= .005){
+            } else if (slideOffset <= .005) {
                 arrow.setFlip(false);
             }
 
@@ -177,9 +177,9 @@ public class MainActivity extends BaseActivity{
         }
 
         @Override
-        public void onDrawerClosed(View drawerView){
+        public void onDrawerClosed(View drawerView) {
             //drawer was closed, check is it was a menu item
-            switch(lastBtnClicked){
+            switch (lastBtnClicked) {
                 case R.id.drawer_menu_about_btn:
                     showAbout();
                     break;
@@ -200,8 +200,10 @@ public class MainActivity extends BaseActivity{
         }
 
         @Override
-        public void onDrawerOpened(View drawerView){}
-        public void setLastBtnClicked(int lastBtnClicked){
+        public void onDrawerOpened(View drawerView) {
+        }
+
+        public void setLastBtnClicked(int lastBtnClicked) {
             this.lastBtnClicked = lastBtnClicked;
         }
     }
