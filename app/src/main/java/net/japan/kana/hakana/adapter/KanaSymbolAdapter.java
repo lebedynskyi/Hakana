@@ -26,7 +26,6 @@ public class KanaSymbolAdapter extends BaseAdapter {
 
     private final List<KanaSymbol> mData;
     private KanaType type;
-    private int selectedPosition;
 
     public KanaSymbolAdapter(KanaType type, List<KanaSymbol> data) {
         this.type = type;
@@ -75,11 +74,6 @@ public class KanaSymbolAdapter extends BaseAdapter {
     public boolean isEnabled(int position) {
         // Return true for clickable, false for not
         return !TextUtils.isEmpty(mData.get(position).getHiragana());
-    }
-
-    public void setSelectedPosition(int selectedPosition) {
-        this.selectedPosition = selectedPosition;
-        notifyDataSetChanged();
     }
 
     static class ViewHolder {

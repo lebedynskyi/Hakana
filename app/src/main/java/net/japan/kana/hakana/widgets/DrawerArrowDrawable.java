@@ -108,12 +108,12 @@ public class DrawerArrowDrawable extends Drawable {
          * ends drawn for {@link Cap#ROUND} style lines.
          */
         private void insetPointsForRoundCaps() {
-            vX = coordsB[0] - coordsA[0];
-            vY = coordsB[1] - coordsA[1];
+            float vX = coordsB[0] - coordsA[0];
+            float vY = coordsB[1] - coordsA[1];
 
-            magnitude = (float) sqrt((vX * vX + vY * vY));
-            paramA = (magnitude - halfStrokeWidthPixel) / magnitude;
-            paramB = halfStrokeWidthPixel / magnitude;
+            float magnitude = (float) sqrt((vX * vX + vY * vY));
+            float paramA = (magnitude - halfStrokeWidthPixel) / magnitude;
+            float paramB = halfStrokeWidthPixel / magnitude;
 
             coordsA[0] = coordsB[0] - (vX * paramA);
             coordsA[1] = coordsB[1] - (vY * paramA);
@@ -150,8 +150,6 @@ public class DrawerArrowDrawable extends Drawable {
     private boolean flip;
     private float parameter;
 
-    // Helper fields during drawing calculations.
-    private float vX, vY, magnitude, paramA, paramB;
     private final float coordsA[] = {0f, 0f};
     private final float coordsB[] = {0f, 0f};
 

@@ -33,7 +33,6 @@ public class KanjiVGParser {
 
     private LinkedList<Path> pathes;
     private Point symbolSize;
-    private SVGtagHandler tagHandler;
 
     public KanjiVGParser(String assetFilePath, Context c) {
         this.assetFilePath = assetFilePath;
@@ -46,7 +45,7 @@ public class KanjiVGParser {
         try {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             SAXParser parser = saxParserFactory.newSAXParser();
-            tagHandler = new SVGtagHandler();
+            SVGtagHandler tagHandler = new SVGtagHandler();
             parser.parse(stream, tagHandler);
             pathes = tagHandler.getParsedPathes();
             symbolSize = tagHandler.getParsedSymbolSize();

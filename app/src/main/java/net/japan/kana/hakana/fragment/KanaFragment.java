@@ -39,7 +39,6 @@ public class KanaFragment extends BaseFragment<MainActivity> {
     private KanaSymbolAdapter kanaAdapter;
     private KanaSymbolAdapter.KanaType currentType = KanaSymbolAdapter.KanaType.HIRAGANA;
     private KanjiDrawerFragment drawerFragment;
-    ;
 
     @InjectView(R.id.kana_grid_view)
     GridView kanaGrid;

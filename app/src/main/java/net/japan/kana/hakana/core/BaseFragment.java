@@ -19,13 +19,12 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment<T extends BaseActivity> extends Fragment {
     protected T mActivity;
-    private Tracker mTracker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            mTracker = ((App) getActivity().getApplication()).getTracker();
+            Tracker mTracker = ((App) getActivity().getApplication()).getTracker();
             mTracker.setScreenName(getClass().getName());
             mTracker.send(new HitBuilders.AppViewBuilder().build());
         } catch (Exception e) {

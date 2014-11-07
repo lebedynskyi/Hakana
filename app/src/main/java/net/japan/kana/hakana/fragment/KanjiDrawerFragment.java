@@ -16,7 +16,8 @@ import net.japan.kana.hakana.models.KanaSymbol;
 import net.japan.kana.hakana.widgets.KanjiDrawer;
 
 /**
- * Created by vetalll on 04.11.14.
+ * Author Vitalii Lebedynskyi
+ * Date 11/4/14
  */
 public class KanjiDrawerFragment extends BaseFragment<MainActivity> {
     @InjectView(R.id.kana_drawer)
