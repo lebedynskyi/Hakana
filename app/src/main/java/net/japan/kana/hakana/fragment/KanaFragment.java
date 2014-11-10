@@ -67,11 +67,15 @@ public class KanaFragment extends BaseFragment<MainActivity> {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         kanaGrid.setAdapter(kanaAdapter);
         kanaGrid.setOnItemClickListener(symbolClickListener);
-        setTitle(R.string.hiragana);
         refreshState();
     }
 

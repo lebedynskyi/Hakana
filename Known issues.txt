@@ -1,1 +1,4 @@
 1) Disappearing of kana handwritten symbol after rotation  -> Fixed by hack (delay 150 ms)
+2) Hide Navigation drawer with kanji handwritten symbol when user press back button
+3) Changing of title when fragment is visible
+4) Replace border background for kana items.  Use spacing and background of grid view

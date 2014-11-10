@@ -2,34 +2,24 @@ package net.japan.kana.hakana.widgets;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 
-import net.japan.kana.hakana.R;
-import net.japan.kana.hakana.tools.KanjiVGParser;
+import net.japan.kana.hakana.tools.handwriter.HandWriter;
+import net.japan.kana.hakana.tools.parser.KanjiVGParser;
 import net.japan.kana.hakana.tools.Logging;
-import net.japan.kana.hakana.tools.ViewUtils;
-
-import java.util.List;
 
 /**
  * Author Vitalii Lebedynskyi
  * Date 10/27/14
  */
 public class KanjiDrawer extends View {
-    public static final String TRACK_TAG = "SVGKanaDrawer";
+    public static final String TRACK_TAG = "KanjiDrawer";
 
-    private List<Path> mPathes;
-    private Paint mPaint;
-    private Matrix mScaleMatrix = new Matrix();
-    private Matrix mTranslateMatrix = new Matrix();
-    private int mScale;
+    private HandWriter mHandWriter;
     private String mAssetFile;
-    private boolean mIsAnimation;
+    private float mScale;
 
     public KanjiDrawer(Context context) {
         super(context);
@@ -43,28 +33,16 @@ public class KanjiDrawer extends View {
         super(context, attrs, defStyleAttr);
     }
 
-    public void init() {
-        mPaint = new Paint();
-        mPaint.setColor(getContext().getResources().getColor(R.color.view_kana_item_text_color));
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setAntiAlias(true);
-        mPaint.setStrokeWidth(ViewUtils.dpToPx(getContext(), 4));
-        int translateOffset = (int) (10.0F / getResources().getDisplayMetrics().density);
-        this.mTranslateMatrix.setTranslate(this.mScale * translateOffset, 0.0F);
-        this.mScaleMatrix.setScale(mScale, mScale);
-    }
 
     public void setKanjiFile(@NonNull String file) {
         mAssetFile = file;
-        preparePath();
-        invalidate();
-    }
-
-    private void preparePath() {
         try {
             KanjiVGParser parser = new KanjiVGParser(mAssetFile, getContext());
             parser.parse();
-            mPathes = parser.getPathes();
+
+            mHandWriter = new HandWriter(getContext(), mScale);
+            mHandWriter.setPath(parser.getPath());
+            invalidate();
         } catch (Exception e) {
             e.printStackTrace();
             Logging.trackException(getContext(), e);
@@ -75,26 +53,12 @@ public class KanjiDrawer extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.save();
-        if (mPathes == null || mPathes.isEmpty()) {
-            Logging.e(TRACK_TAG, "mPathes == null || mPathes.isEmpty()");
+        if (mHandWriter == null) {
+            Logging.e(TRACK_TAG, "mKanjiPath == null || mHandWriter == null");
             return;
         }
 
-        if (mIsAnimation) {
-            //TODO calculate path
-            for (Path p : mPathes) {
-                p.transform(this.mTranslateMatrix);
-                p.transform(this.mScaleMatrix);
-                canvas.drawPath(p, mPaint);
-            }
-            postDelayed(poster, 50);
-        } else {
-            for (Path p : mPathes) {
-                p.transform(this.mTranslateMatrix);
-                p.transform(this.mScaleMatrix);
-                canvas.drawPath(p, mPaint);
-            }
-        }
+        mHandWriter.draw(canvas);
 
         canvas.restore();
 
@@ -110,12 +74,7 @@ public class KanjiDrawer extends View {
         }
 
         setMeasuredDimension(width, width);
-        this.mScale = width / 109;
-        init();
-    }
-
-    public void setAnimation(boolean value) {
-        mIsAnimation = value;
+        this.mScale = width / 109f;
     }
 
     private Runnable poster = new Runnable() {

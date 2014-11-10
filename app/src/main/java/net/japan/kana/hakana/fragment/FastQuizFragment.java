@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.japan.kana.hakana.R;
 import net.japan.kana.hakana.activity.MainActivity;
 import net.japan.kana.hakana.core.BaseFragment;
 
@@ -24,6 +23,5 @@ public class FastQuizFragment extends BaseFragment<MainActivity> {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setTitle(getString(R.string.fast_quiz_title));
     }
 }

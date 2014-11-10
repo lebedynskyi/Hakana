@@ -22,5 +22,6 @@
     <string name="diacritics_seion">seion</string>
     <string name="diacritics_dakuon">dakuon</string>
     <string name="diacritics_youon">youon</string>
+    <string name="unknown_fragment">Unknown fragment</string>
 
 </resources>

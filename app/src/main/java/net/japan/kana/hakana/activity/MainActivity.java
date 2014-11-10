@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import net.japan.kana.hakana.R;
 import net.japan.kana.hakana.core.BaseActivity;
+import net.japan.kana.hakana.core.BaseFragment;
 import net.japan.kana.hakana.fragment.AboutFragment;
 import net.japan.kana.hakana.fragment.FastQuizFragment;
 import net.japan.kana.hakana.fragment.KanaFragment;
@@ -101,7 +102,9 @@ public class MainActivity extends BaseActivity {
             //showing existing fragment
             tr.show(fr);
         }
+
         this.currentFragment = fr;
+        //Set title for current fragment
         tr.commit();
     }
 
@@ -130,8 +133,6 @@ public class MainActivity extends BaseActivity {
         if (!getPreference().isUserKnowAboutDrawer()) {
             mDrawer.openDrawer(mDrawerMenu);
             getPreference().setUserKnowAboutDrawer(true);
-        } else {
-            setTitle(getString(R.string.fast_quiz_title));
         }
     }
 

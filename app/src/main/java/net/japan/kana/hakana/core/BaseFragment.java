@@ -12,6 +12,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import butterknife.ButterKnife;
+import net.japan.kana.hakana.R;
 
 /**
  * Author Vitalii Lebedynskyi
@@ -50,21 +51,5 @@ public abstract class BaseFragment<T extends BaseActivity> extends Fragment {
         super.onAttach(activity);
         //Base fragment should be added only for T activity
         mActivity = (T) activity;
-    }
-
-    protected void setTitle(String s) {
-        mActivity.setTitle(s);
-    }
-
-    protected void setTitle(int res) {
-        mActivity.setTitle(res);
-    }
-
-    protected void setSubTitle(String s) {
-        mActivity.setSubTitle(s);
-    }
-
-    protected void setSubTitle(int res) {
-        mActivity.setSubTitle(res);
     }
 }

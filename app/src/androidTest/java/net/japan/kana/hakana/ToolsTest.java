@@ -2,7 +2,7 @@ package net.japan.kana.hakana;
 
 import android.test.InstrumentationTestCase;
 
-import net.japan.kana.hakana.tools.KanjiVGParser;
+import net.japan.kana.hakana.tools.parser.KanjiVGParser;
 
 /**
  * Author Vitalii Lebedynskyi
@@ -16,7 +16,7 @@ public class ToolsTest extends InstrumentationTestCase {
         assertEquals(109, parser.getSymbolSize().x);
         assertEquals(109, parser.getSymbolSize().y);
 
-        assertNotNull(parser.getPathes());
+        assertNotNull(parser.getPath());
 
         //TODO assert equals
     }
