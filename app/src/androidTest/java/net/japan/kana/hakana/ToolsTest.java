@@ -8,8 +8,8 @@ import net.japan.kana.hakana.tools.KanjiVGParser;
  * Author Vitalii Lebedynskyi
  * Date 10/27/14
  */
-public class ToolsTest extends InstrumentationTestCase{
-    public void testKanjiSVGParser() throws Exception{
+public class ToolsTest extends InstrumentationTestCase {
+    public void testKanjiSVGParser() throws Exception {
         KanjiVGParser parser = new KanjiVGParser("test_kanjivg_file", getInstrumentation().getContext());
         parser.parse();
         assertNotNull(parser.getSymbolSize());

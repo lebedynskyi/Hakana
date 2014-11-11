@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <net.japan.kana.hakana.widgets.CheckableLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:padding="3dp"
-              android:background="@drawable/view_kana_symbol_bg">
+                                                     android:orientation="vertical"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="match_parent"
+                                                     android:padding="3dp"
+                                                     android:background="@drawable/view_kana_symbol_bg">
 
     <net.japan.kana.hakana.widgets.CheckableTextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/kana_symbol"
-        android:layout_weight="0.25"
-        android:gravity="center"
-        android:textSize="22sp"
-        android:textColor="@color/view_kana_item_text_color"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/kana_symbol"
+            android:layout_weight="0.25"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:textColor="@color/view_kana_item_text_color"/>
 
     <net.japan.kana.hakana.widgets.CheckableTextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/kana_pronounce"
-        android:layout_weight="0.75"
-        android:gravity="center"
-        android:textSize="17sp"
-        android:textColor="@color/view_kana_item_text_color"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/kana_pronounce"
+            android:layout_weight="0.75"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textColor="@color/view_kana_item_text_color"/>
 </net.japan.kana.hakana.widgets.CheckableLinearLayout>

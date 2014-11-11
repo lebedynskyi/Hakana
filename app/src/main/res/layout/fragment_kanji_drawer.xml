@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:background="@color/app_bg"
+              android:background="@color/primary_background"
               android:orientation="vertical"
+              android:clickable="true"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <net.japan.kana.hakana.widgets.KanjiDrawer android:layout_width="match_parent"
                                                android:layout_height="match_parent"
                                                android:id="@+id/kana_drawer"
-                                               android:layout_weight="0.25"/>
+                                               android:layout_weight="0.25"
+                                               android:layout_gravity="center"/>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:layout_weight="0.75"/>

@@ -11,29 +11,31 @@ import net.japan.kana.hakana.R;
  * Author Vitalii Lebedynskyi
  * Date 10/28/14
  */
-public class App extends Application{
+public class App extends Application {
     private AppPreference mPreference;
     private Tracker mTracker;
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
         initConfig();
     }
 
-    private void initConfig(){
+    private void initConfig() {
         mPreference = new AppPreference(this);
     }
 
     public synchronized Tracker getTracker() {
-        GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-        mTracker = analytics.newTracker(R.xml.google_analytics);
-        mTracker.enableAutoActivityTracking(true);
-        mTracker.enableExceptionReporting(true);
+        if(mTracker == null){
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            mTracker = analytics.newTracker(R.xml.google_analytics);
+            mTracker.enableAutoActivityTracking(true);
+            mTracker.enableExceptionReporting(true);
+        }
         return mTracker;
     }
 
-    public AppPreference getPreference(){
+    public AppPreference getPreference() {
         return mPreference;
     }
 }

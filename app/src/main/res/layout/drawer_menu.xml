@@ -2,42 +2,43 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:background="@color/app_bg"
+              android:clickable="true"
+              android:background="@color/primary_background"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <Button
-        android:id="@+id/drawer_menu_kana_btn"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="@string/drawer_menu_kana"
-        android:layout_marginTop="1px"
-        style="@style/DrawerButton"/>
+            android:id="@+id/drawer_menu_kana_btn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="@string/drawer_menu_kana"
+            style="@style/DrawerButton"/>
+    <include layout="@layout/divider"/>
     <Button
-        android:id="@+id/drawer_menu_vocab_btn"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="@string/drawer_menu_vocab"
-        android:layout_marginTop="1px"
-        style="@style/DrawerButton"/>
+            android:id="@+id/drawer_menu_vocab_btn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="@string/drawer_menu_vocab"
+            style="@style/DrawerButton"/>
+    <include layout="@layout/divider"/>
     <Button
-        android:id="@+id/drawer_menu_test_btn"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="@string/drawer_menu_test"
-        android:layout_marginTop="1px"
-        style="@style/DrawerButton"/>
+            android:id="@+id/drawer_menu_test_btn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="@string/drawer_menu_test"
+            style="@style/DrawerButton"/>
+    <include layout="@layout/divider"/>
     <Button
-        android:id="@+id/drawer_menu_about_btn"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="@string/drawer_menu_about"
-        android:layout_marginTop="1px"
-        style="@style/DrawerButton"/>
+            android:id="@+id/drawer_menu_about_btn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="@string/drawer_menu_about"
+            style="@style/DrawerButton"/>
+    <include layout="@layout/divider"/>
     <Button
-        android:id="@+id/drawer_menu_settings_btn"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="@string/drawer_menu_settings"
-        android:layout_marginTop="1px"
-        style="@style/DrawerButton"/>
+            android:id="@+id/drawer_menu_settings_btn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="@string/drawer_menu_settings"
+            style="@style/DrawerButton"/>
+    <include layout="@layout/divider"/>
 </LinearLayout>

@@ -1,9 +1,8 @@
 package net.japan.kana.hakana.fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -24,12 +23,12 @@ import butterknife.InjectView;
  * Author Vitalii Lebedynskyi
  * Date 10/30/14
  */
-public class KanaFragment extends BaseFragment<MainActivity>{
-    enum KanaSet{
+public class KanaFragment extends BaseFragment<MainActivity> {
+    enum KanaSet {
         SEION, DAKUON, YOUON
     }
 
-    enum KanaType{
+    enum KanaType {
         HIRAGANA, KATAKANA
     }
 
@@ -39,13 +38,17 @@ public class KanaFragment extends BaseFragment<MainActivity>{
     private KanaType kanatype = KanaType.HIRAGANA;
     private KanaSymbolAdapter kanaAdapter;
     private KanaSymbolAdapter.KanaType currentType = KanaSymbolAdapter.KanaType.HIRAGANA;
-    private KanjiDrawerFragment drawerFragment;;
+    private KanjiDrawerFragment drawerFragment;
 
     @InjectView(R.id.kana_grid_view)
     GridView kanaGrid;
+    @InjectView(R.id.kanji_drawer_container)
+    View mKanjiDrawerContainer;
+    @InjectView(R.id.kanji_drawer_layout)
+    DrawerLayout mDrawerLayout;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         kanaAdapter = new KanaSymbolAdapter(currentType, currentKanasSymbols);
         setHasOptionsMenu(true);
@@ -59,34 +62,40 @@ public class KanaFragment extends BaseFragment<MainActivity>{
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_kana, container, false);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState){
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         kanaGrid.setAdapter(kanaAdapter);
         kanaGrid.setOnItemClickListener(symbolClickListener);
-        setSubTitle(R.string.hiragana);
+        setTitle(R.string.hiragana);
         refreshState();
     }
 
-    public void refreshState(){
+    public void refreshState() {
         //TODO implement
         currentKanasSymbols.clear();
         currentKanasSymbols.addAll(Arrays.asList(Const.Kana.getSeionKana()));
     }
 
-    private AdapterView.OnItemClickListener symbolClickListener = new AdapterView.OnItemClickListener(){
+    private AdapterView.OnItemClickListener symbolClickListener = new AdapterView.OnItemClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             KanaSymbol clickedSymbol = kanaAdapter.getItem(position);
-            if(drawerFragment == null){
+            if (drawerFragment == null) {
                 drawerFragment = (KanjiDrawerFragment) getFragmentManager().findFragmentById(R.id.kanji_drawer_container);
             }
 
-            drawerFragment.setKanjiSymbol(clickedSymbol);
+            if (!mActivity.getPreference().isUserKnowAboutKanjiDrawer()) {
+                mActivity.getPreference().setUserKnowAboutKanjiDrawer(true);
+                if (!mDrawerLayout.isDrawerOpen(mKanjiDrawerContainer)) {
+                    mDrawerLayout.openDrawer(mKanjiDrawerContainer);
+                }
+            }
+            drawerFragment.setKanjiSymbol(clickedSymbol, true);
         }
     };
 }

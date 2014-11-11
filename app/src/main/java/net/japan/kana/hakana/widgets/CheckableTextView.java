@@ -9,19 +9,19 @@ import android.widget.TextView;
  * Author Vitalii Lebedynskyi
  * Date 11/3/14
  */
-public class CheckableTextView extends TextView implements Checkable{
-    private static final int[] CHECKED_STATE_SET = { android.R.attr.state_checked };
+public class CheckableTextView extends TextView implements Checkable {
+    private static final int[] CHECKED_STATE_SET = {android.R.attr.state_checked};
     private boolean isChecked;
 
-    public CheckableTextView(Context context){
+    public CheckableTextView(Context context) {
         super(context);
     }
 
-    public CheckableTextView(Context context, AttributeSet attrs){
+    public CheckableTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CheckableTextView(Context context, AttributeSet attrs, int defStyle){
+    public CheckableTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -34,18 +34,18 @@ public class CheckableTextView extends TextView implements Checkable{
     }
 
     @Override
-    public void setChecked(boolean checked){
+    public void setChecked(boolean checked) {
         isChecked = checked;
         refreshDrawableState();
     }
 
     @Override
-    public boolean isChecked(){
+    public boolean isChecked() {
         return isChecked;
     }
 
     @Override
-    public void toggle(){
+    public void toggle() {
         setChecked(!isChecked());
     }
 }

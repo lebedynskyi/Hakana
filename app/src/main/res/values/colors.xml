@@ -13,6 +13,7 @@
     <!--Common colors-->
     <color name="active_item_bg">#ffff590f</color>
     <color name="divider_color">#ff474747</color>
-    <color name="app_bg">#E8E2DB</color>"
+    <color name="primary_background">#F5F0E9</color>"
+    <color name="secondary_background">#E2DCD5</color>
     <color name="almost_black">#3a3a3a</color>
 </resources>

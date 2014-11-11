@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="pref_array_entry">
+        <item>1 first array</item>
+        <item>2 first array</item>
+        <item>3 first array</item>
+        <item>4 first array</item>
+        <item>5 first array</item>
+        <item>6 first array</item>
+        <item>7 first array</item>
+        <item>8 first array</item>
+        <item>9 first array</item>
+    </array>
+
+    <array name="pref_array_entry_two">
+        <item>1 Second Values</item>
+        <item>2 Second Values</item>
+        <item>3 Second Values</item>
+        <item>4 Second Values</item>
+        <item>5 Second Values</item>
+        <item>6 Second Values</item>
+        <item>7 Second Values</item>
+        <item>8 Second Values</item>
+        <item>9 Second Values</item>
+    </array>
+</resources>

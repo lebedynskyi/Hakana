@@ -24,7 +24,7 @@ import javax.xml.parsers.SAXParserFactory;
  * Author Vitalii Lebedynskyi
  * Date 10/27/14
  */
-public class KanjiVGParser{
+public class KanjiVGParser {
     public static final String LOG_TAG = "KanjiVGParser";
 
     private final String assetFilePath;
@@ -33,34 +33,34 @@ public class KanjiVGParser{
 
     private LinkedList<Path> pathes;
     private Point symbolSize;
-    private SVGtagHandler tagHandler;
 
-    public KanjiVGParser(String assetFilePath, Context c){
+    public KanjiVGParser(String assetFilePath, Context c) {
         this.assetFilePath = assetFilePath;
         this.context = c;
     }
 
     //preparing of path for kanji
-    public void parse() throws Exception{
+    public void parse() throws Exception {
         InputStream stream = context.getAssets().open(assetFilePath);
-        try{
+        try {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             SAXParser parser = saxParserFactory.newSAXParser();
-            tagHandler = new SVGtagHandler();
+            SVGtagHandler tagHandler = new SVGtagHandler();
             parser.parse(stream, tagHandler);
             pathes = tagHandler.getParsedPathes();
             symbolSize = tagHandler.getParsedSymbolSize();
             parsed = true;
-        }finally{
-            try{
+        } finally {
+            try {
                 stream.close();
-            }catch(Exception ignored){}
+            } catch (Exception ignored) {
+            }
         }
     }
 
     //returns parsed pathes
-    public List<Path> getPathes(){
-        if(!parsed){
+    public List<Path> getPathes() {
+        if (!parsed) {
             throw new IllegalStateException("parse() should be called before");
         }
 
@@ -68,8 +68,8 @@ public class KanjiVGParser{
     }
 
     //returns parsed size of parsed symbol
-    public Point getSymbolSize(){
-        if(!parsed){
+    public Point getSymbolSize() {
+        if (!parsed) {
             throw new IllegalStateException("parse() should be called before");
         }
 
@@ -77,104 +77,122 @@ public class KanjiVGParser{
     }
 
     //handler of tags like <g> <svg> etc
-    private class SVGtagHandler extends DefaultHandler{
+    private class SVGtagHandler extends DefaultHandler {
         private LinkedList<Path> parsedPathes;
         private Point parsedSymbolSize;
 
-        public LinkedList<Path> getParsedPathes(){
+        public LinkedList<Path> getParsedPathes() {
             return parsedPathes;
         }
 
-        public Point getParsedSymbolSize(){
+        public Point getParsedSymbolSize() {
             return parsedSymbolSize;
         }
 
         @Override
-        public void characters(char[] ch, int start, int length) throws SAXException{
+        public void characters(char[] ch, int start, int length) throws SAXException {
             super.characters(ch, start, length);
         }
 
         @Override
-        public void startDocument() throws SAXException{
+        public void startDocument() throws SAXException {
             super.startDocument();
             Logging.d("SVG Parser", "Start of document, parsing....");
             parsedPathes = new LinkedList<Path>();
         }
 
         @Override
-        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException{
-            if(localName.equalsIgnoreCase("svg")){
+        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+            if (localName.equalsIgnoreCase("svg")) {
                 parsedSymbolSize = new Point(Integer.parseInt(attributes.getValue("height")), Integer.parseInt(attributes.getValue("width")));
-            }else if(localName.equalsIgnoreCase("path")){
+            } else if (localName.equalsIgnoreCase("path")) {
                 parsedPathes.add(parseSvgPath(attributes.getValue("d")));
             }
         }
 
         @Override
-        public void endElement(String uri, String localName, String qName) throws SAXException{
+        public void endElement(String uri, String localName, String qName) throws SAXException {
             super.endElement(uri, localName, qName);
             Logging.d("SVG Parser", "endElement = " + uri + " localName = " + localName + " qName = " + qName);
         }
 
         @Override
-        public void endDocument() throws SAXException{
+        public void endDocument() throws SAXException {
             super.endDocument();
             Logging.d("SVG Parser", "End document, creating of path");
         }
 
         //parsing data of path
-        private Path parseSvgPath(String data){
+        private Path parseSvgPath(String data) {
             Path p = new Path();
             Pattern pattern = Pattern.compile("[a-zA-Z]|(-?[\\d+\\.]+)");
             Matcher m = pattern.matcher(data);
             ArrayList<String> groups = new ArrayList<String>();
-            while(m.find()){
+            while (m.find()) {
                 groups.add(m.group());
             }
-
+            //TODO implement command S and s  (0304a)
+            //C x1 y1, x2 y2, x y (or c dx1 dy1, dx2 dy2, dx dy)
+            //S x2 y2, x y (or s dx2 dy2, dx dy)  so i think x1 y1 is last point
             float lastX = 0, lastY = 0;
             Iterator<String> groupIterator = groups.iterator();
-            while(groupIterator.hasNext()){
+            while (groupIterator.hasNext()) {
                 String token = groupIterator.next();
-                if(token.equals("M")){
+                if (token.equals("M")) {
                     float x = Float.valueOf(groupIterator.next());
                     float y = Float.valueOf(groupIterator.next());
                     p.moveTo(x, y);
                     lastX = x;
                     lastY = y;
-                }else if(token.equals("L")){
+                } else if (token.equals("L")) {
                     float x = Float.valueOf(groupIterator.next());
                     float y = Float.valueOf(groupIterator.next());
                     p.lineTo(x, y);
                     lastX = x;
                     lastY = y;
-                }else if(token.equals("C")){
+                } else if (token.equals("C")) {
                     float x1 = Float.valueOf(groupIterator.next());
                     float y1 = Float.valueOf(groupIterator.next());
                     float x2 = Float.valueOf(groupIterator.next());
                     float y2 = Float.valueOf(groupIterator.next());
-                    float x3 = Float.valueOf(groupIterator.next());
-                    float y3 = Float.valueOf(groupIterator.next());
-                    p.cubicTo(x1, y1, x2, y2, x3, y3);
-                    lastX = x3;
-                    lastY = y3;
-                }else if(token.equals("z")){
+                    float x = Float.valueOf(groupIterator.next());
+                    float y = Float.valueOf(groupIterator.next());
+                    p.cubicTo(x1, y1, x2, y2, x, y);
+                    lastX = x;
+                    lastY = y;
+                } else if (token.equals("z")) {
                     p.close();
-                }else if(token.equals("c")){
-                    //TODO not checked
-                    float x1 = Float.valueOf(groupIterator.next()) + lastX;
-                    float y1 = Float.valueOf(groupIterator.next()) + lastY;
-                    float x2 = Float.valueOf(groupIterator.next()) + lastX;
-                    float y2 = Float.valueOf(groupIterator.next()) + lastY;
-                    float x3 = Float.valueOf(groupIterator.next()) + lastX;
-                    float y3 = Float.valueOf(groupIterator.next()) + lastY;
-                    p.cubicTo(x1, y1, x2, y2, x3, y3);
-                    lastX = x3;
-                    lastY = y3;
-                }else {
+                } else if (token.equals("c")) {
+                    float dx1 = Float.valueOf(groupIterator.next()) + lastX;
+                    float dy1 = Float.valueOf(groupIterator.next()) + lastY;
+                    float dx2 = Float.valueOf(groupIterator.next()) + lastX;
+                    float dy2 = Float.valueOf(groupIterator.next()) + lastY;
+                    float dx = Float.valueOf(groupIterator.next()) + lastX;
+                    float dy = Float.valueOf(groupIterator.next()) + lastY;
+                    p.cubicTo(dx1, dy1, dx2, dy2, dx, dy);
+                    lastX = dx;
+                    lastY = dy;
+                } else if (token.equals("s")) { //Not implemented
+                    float dx2 = Float.valueOf(groupIterator.next()) + lastX;
+                    float dy2 = Float.valueOf(groupIterator.next()) + lastY;
+                    float dx = Float.valueOf(groupIterator.next()) + lastX;
+                    float dy = Float.valueOf(groupIterator.next()) + lastY;
+                    p.cubicTo(lastX, lastY, dx2, dy2, dx, dy);
+                    lastX = dx;
+                    lastY = dy;
+                } else if (token.equals("S")) { //Not implemented
+                    float x2 = Float.valueOf(groupIterator.next());
+                    float y2 = Float.valueOf(groupIterator.next());
+                    float x = Float.valueOf(groupIterator.next());
+                    float y = Float.valueOf(groupIterator.next());
+                    p.cubicTo(lastX, lastY, x2, y2, x, y);
+                    lastX = x;
+                    lastY = y;
+                } else {
                     throw new RuntimeException("unknown command [" + token + "]");
                 }
             }
+            //move to first point
             PathMeasure pathMeasure = new PathMeasure(p, false);
             float[] startPoint = new float[2];
             pathMeasure.getPosTan(0, startPoint, null);

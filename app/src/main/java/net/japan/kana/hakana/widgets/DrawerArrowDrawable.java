@@ -37,7 +37,9 @@ import static android.graphics.PixelFormat.TRANSLUCENT;
 import static android.support.v4.widget.DrawerLayout.DrawerListener;
 import static java.lang.Math.sqrt;
 
-/** A drawable that rotates between a drawer icon and a back arrow based on parameter. */
+/**
+ * A drawable that rotates between a drawer icon and a back arrow based on parameter.
+ */
 public class DrawerArrowDrawable extends Drawable {
 
     /**
@@ -77,7 +79,9 @@ public class DrawerArrowDrawable extends Drawable {
         }
     }
 
-    /** Draws a line between two {@link JoinedPath}s at distance {@code parameter} along each path. */
+    /**
+     * Draws a line between two {@link JoinedPath}s at distance {@code parameter} along each path.
+     */
     private class BridgingLine {
 
         private final JoinedPath pathA;
@@ -104,12 +108,12 @@ public class DrawerArrowDrawable extends Drawable {
          * ends drawn for {@link Cap#ROUND} style lines.
          */
         private void insetPointsForRoundCaps() {
-            vX = coordsB[0] - coordsA[0];
-            vY = coordsB[1] - coordsA[1];
+            float vX = coordsB[0] - coordsA[0];
+            float vY = coordsB[1] - coordsA[1];
 
-            magnitude = (float) sqrt((vX * vX + vY * vY));
-            paramA = (magnitude - halfStrokeWidthPixel) / magnitude;
-            paramB = halfStrokeWidthPixel / magnitude;
+            float magnitude = (float) sqrt((vX * vX + vY * vY));
+            float paramA = (magnitude - halfStrokeWidthPixel) / magnitude;
+            float paramB = halfStrokeWidthPixel / magnitude;
 
             coordsA[0] = coordsB[0] - (vX * paramA);
             coordsA[1] = coordsB[1] - (vY * paramA);
@@ -118,10 +122,14 @@ public class DrawerArrowDrawable extends Drawable {
         }
     }
 
-    /** Paths were generated at a 3px/dp density; this is the scale factor for different densities. */
+    /**
+     * Paths were generated at a 3px/dp density; this is the scale factor for different densities.
+     */
     private final static float PATH_GEN_DENSITY = 3;
 
-    /** Paths were generated with at this size for {@link DrawerArrowDrawable#PATH_GEN_DENSITY}. */
+    /**
+     * Paths were generated with at this size for {@link DrawerArrowDrawable#PATH_GEN_DENSITY}.
+     */
     private final static float DIMEN_DP = 23.5f;
 
     /**
@@ -142,10 +150,8 @@ public class DrawerArrowDrawable extends Drawable {
     private boolean flip;
     private float parameter;
 
-    // Helper fields during drawing calculations.
-    private float vX, vY, magnitude, paramA, paramB;
-    private final float coordsA[] = { 0f, 0f };
-    private final float coordsB[] = { 0f, 0f };
+    private final float coordsA[] = {0f, 0f};
+    private final float coordsB[] = {0f, 0f};
 
     public DrawerArrowDrawable(Resources resources) {
         this(resources, false);
@@ -236,15 +242,18 @@ public class DrawerArrowDrawable extends Drawable {
         bottomLine = new BridgingLine(joinedA, joinedB);
     }
 
-    @Override public int getIntrinsicHeight() {
+    @Override
+    public int getIntrinsicHeight() {
         return bounds.height();
     }
 
-    @Override public int getIntrinsicWidth() {
+    @Override
+    public int getIntrinsicWidth() {
         return bounds.width();
     }
 
-    @Override public void draw(Canvas canvas) {
+    @Override
+    public void draw(Canvas canvas) {
         if (flip) {
             canvas.save();
             canvas.scale(1f, -1f, getIntrinsicWidth() / 2, getIntrinsicHeight() / 2);
@@ -257,17 +266,20 @@ public class DrawerArrowDrawable extends Drawable {
         if (flip) canvas.restore();
     }
 
-    @Override public void setAlpha(int alpha) {
+    @Override
+    public void setAlpha(int alpha) {
         linePaint.setAlpha(alpha);
         invalidateSelf();
     }
 
-    @Override public void setColorFilter(ColorFilter cf) {
+    @Override
+    public void setColorFilter(ColorFilter cf) {
         linePaint.setColorFilter(cf);
         invalidateSelf();
     }
 
-    @Override public int getOpacity() {
+    @Override
+    public int getOpacity() {
         return TRANSLUCENT;
     }
 

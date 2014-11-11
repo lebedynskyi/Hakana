@@ -1,5 +1,6 @@
 package net.japan.kana.hakana.fragment;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,7 +16,8 @@ import net.japan.kana.hakana.models.KanaSymbol;
 import net.japan.kana.hakana.widgets.KanjiDrawer;
 
 /**
- * Created by vetalll on 04.11.14.
+ * Author Vitalii Lebedynskyi
+ * Date 11/4/14
  */
 public class KanjiDrawerFragment extends BaseFragment<MainActivity> {
     @InjectView(R.id.kana_drawer)
@@ -39,17 +41,34 @@ public class KanjiDrawerFragment extends BaseFragment<MainActivity> {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public void setKanjiSymbol(KanaSymbol clickedSymbol){
-        Toast.makeText(mActivity, clickedSymbol.getHiragana() + " ->> " + clickedSymbol.getAscii(), Toast.LENGTH_SHORT).show();
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //There is a bug during rotation. handwritten symbol is disappearing.
+        if(kanjiSymbol == null){
+            return;
+        }
+
+        kanaDrawer.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setKanjiSymbol(kanjiSymbol, false);
+            }
+        }, 150);
+    }
+
+    public void setKanjiSymbol(KanaSymbol clickedSymbol, boolean playSound) {
+        //TODO play sound
+        Toast.makeText(mActivity, clickedSymbol.getHiragana() + " ->> " + clickedSymbol.getHiraganaAscii(), Toast.LENGTH_SHORT).show();
         this.kanjiSymbol = clickedSymbol;
-        kanaDrawer.setKanjiFile("kana/" + clickedSymbol.getAscii());
+        kanaDrawer.setKanjiFile("kana/" + clickedSymbol.getHiraganaAscii());
     }
 
-    public void startDraw(){
+    public void startDraw() {
 
     }
 
-    public void stopDraw(){
+    public void stopDraw() {
 
     }
 }

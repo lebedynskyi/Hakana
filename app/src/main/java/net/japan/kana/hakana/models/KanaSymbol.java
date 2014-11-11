@@ -4,42 +4,46 @@ package net.japan.kana.hakana.models;
  * Author Vitalii Lebedynskyi
  * Date 10/31/14
  */
-public class KanaSymbol{
+public class KanaSymbol {
     private String hiragana;
     private String katakana;
     private String englishVersion;
 
-    public KanaSymbol(String hiragana, String katakana, String englishVersion){
+    public KanaSymbol(String hiragana, String katakana, String englishVersion) {
         this.hiragana = hiragana;
         this.katakana = katakana;
         this.englishVersion = englishVersion;
     }
 
-    public String getHiragana(){
+    public String getHiragana() {
         return hiragana;
     }
 
-    public void setHiragana(String hiragana){
+    public void setHiragana(String hiragana) {
         this.hiragana = hiragana;
     }
 
-    public String getKatakana(){
+    public String getKatakana() {
         return katakana;
     }
 
-    public void setKatakana(String katakana){
+    public void setKatakana(String katakana) {
         this.katakana = katakana;
     }
 
-    public String getEnglishVersion(){
+    public String getEnglishVersion() {
         return englishVersion;
     }
 
-    public void setEnglishVersion(String englishVersion){
+    public void setEnglishVersion(String englishVersion) {
         this.englishVersion = englishVersion;
     }
 
-    public String getAscii(){
-        return "0" + Integer.toHexString((int)getHiragana().charAt(0));
+    public String getHiraganaAscii() {
+        return "0" + Integer.toHexString((int) getHiragana().charAt(0));
+    }
+
+    public String getKatakanaAscii() {
+        return "0" + Integer.toHexString((int) getKatakana().charAt(0));
     }
 }

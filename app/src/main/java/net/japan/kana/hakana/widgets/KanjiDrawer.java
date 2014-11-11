@@ -2,6 +2,7 @@ package net.japan.kana.hakana.widgets;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.support.annotation.NonNull;
@@ -19,72 +20,108 @@ import java.util.List;
  * Author Vitalii Lebedynskyi
  * Date 10/27/14
  */
-public class KanjiDrawer extends View{
+public class KanjiDrawer extends View {
     public static final String TRACK_TAG = "SVGKanaDrawer";
 
-    private String mAssetFile;
     private List<Path> mPathes;
     private Paint mPaint;
+    private Matrix mScaleMatrix = new Matrix();
+    private Matrix mTranslateMatrix = new Matrix();
+    private int mScale;
+    private String mAssetFile;
+    private boolean mIsAnimation;
 
-    public KanjiDrawer(Context context){
+    public KanjiDrawer(Context context) {
         super(context);
-        init(context);
     }
 
-    public KanjiDrawer(Context context, AttributeSet attrs){
+    public KanjiDrawer(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
     }
 
-    public KanjiDrawer(Context context, AttributeSet attrs, int defStyleAttr){
+    public KanjiDrawer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
     }
 
-    public void init(Context context){
+    public void init() {
         mPaint = new Paint();
-        mPaint.setColor(context.getResources().getColor(R.color.view_kana_item_text_color));
-        mPaint.setStrokeWidth(ViewUtils.dpToPx(context, 3));
+        mPaint.setColor(getContext().getResources().getColor(R.color.view_kana_item_text_color));
         mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setAntiAlias(true);
+        mPaint.setStrokeWidth(ViewUtils.dpToPx(getContext(), 4));
+        int translateOffset = (int) (10.0F / getResources().getDisplayMetrics().density);
+        this.mTranslateMatrix.setTranslate(this.mScale * translateOffset, 0.0F);
+        this.mScaleMatrix.setScale(mScale, mScale);
     }
 
-    public void setKanjiFile(@NonNull String file){
+    public void setKanjiFile(@NonNull String file) {
         mAssetFile = file;
         preparePath();
         invalidate();
     }
 
-    private void preparePath(){
-        try{
+    private void preparePath() {
+        try {
             KanjiVGParser parser = new KanjiVGParser(mAssetFile, getContext());
             parser.parse();
             mPathes = parser.getPathes();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Logging.trackException(getContext(), e);
         }
     }
 
     @Override
-    protected void onDraw(Canvas canvas){
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.save();
-        //TODO draw empty symbol
-        if(mPathes == null || mPathes.isEmpty()){
-           return;
+        if (mPathes == null || mPathes.isEmpty()) {
+            Logging.e(TRACK_TAG, "mPathes == null || mPathes.isEmpty()");
+            return;
         }
 
-        for(Path p : mPathes){
-            canvas.drawPath(p, mPaint);
+        if (mIsAnimation) {
+            //TODO calculate path
+            for (Path p : mPathes) {
+                p.transform(this.mTranslateMatrix);
+                p.transform(this.mScaleMatrix);
+                canvas.drawPath(p, mPaint);
+            }
+            postDelayed(poster, 50);
+        } else {
+            for (Path p : mPathes) {
+                p.transform(this.mTranslateMatrix);
+                p.transform(this.mScaleMatrix);
+                canvas.drawPath(p, mPaint);
+            }
         }
+
         canvas.restore();
-    }
-
-    public void DrawKanji(){
 
     }
 
-    public void stopDrawKanji(){
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
+        if (width > height) {
+            width = height;
+        }
 
+        setMeasuredDimension(width, width);
+        this.mScale = width / 109;
+        init();
     }
+
+    public void setAnimation(boolean value) {
+        mIsAnimation = value;
+    }
+
+    private Runnable poster = new Runnable() {
+        @Override
+        public void run() {
+            invalidate();
+        }
+    };
 }
