@@ -10,6 +10,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,11 +20,11 @@ import java.util.regex.Pattern;
  * Date 09.11.14
  */
 public class KanjiSVGTagHandler extends DefaultHandler {
-    private Path parsedPath;
+    private List<Path> parsedPathes;
     private Point parsedSymbolSize;
 
-    public Path getParsedPath() {
-        return parsedPath;
+    public List<Path> getParsedPathes() {
+        return parsedPathes;
     }
 
     public Point getParsedSymbolSize() {
@@ -38,7 +40,7 @@ public class KanjiSVGTagHandler extends DefaultHandler {
     public void startDocument() throws SAXException {
         super.startDocument();
         Logging.d("SVG Parser", "Start of document, parsing....");
-        parsedPath = new Path();
+        parsedPathes = new LinkedList<Path>();
     }
 
     @Override
@@ -46,7 +48,8 @@ public class KanjiSVGTagHandler extends DefaultHandler {
         if (localName.equalsIgnoreCase("svg")) {
             parsedSymbolSize = new Point(Integer.parseInt(attributes.getValue("height")), Integer.parseInt(attributes.getValue("width")));
         } else if (localName.equalsIgnoreCase("path")) {
-            parseSvgPath(attributes.getValue("d"), parsedPath);
+            Path p = parseSvgPath(attributes.getValue("d"));
+            parsedPathes.add(p);
         }
     }
 
@@ -60,23 +63,18 @@ public class KanjiSVGTagHandler extends DefaultHandler {
     public void endDocument() throws SAXException {
         super.endDocument();
         Logging.d("SVG Parser", "End document, creating of path");
-
-//        move to first point
-        PathMeasure pathMeasure = new PathMeasure(parsedPath, false);
-        float[] startPoint = new float[2];
-        pathMeasure.getPosTan(0, startPoint, null);
-        parsedPath.moveTo(startPoint[0], startPoint[1]);
-        parsedPath.close();
     }
 
     //parsing data of path
-    private void parseSvgPath(String data, Path resultPath) {
+    private Path parseSvgPath(String data) {
         Pattern pattern = Pattern.compile("[a-zA-Z]|(-?[\\d+\\.]+)");
         Matcher m = pattern.matcher(data);
         ArrayList<String> groups = new ArrayList<String>();
         while (m.find()) {
             groups.add(m.group());
         }
+
+        Path resultPath = new Path();
 
         //C x1 y1, x2 y2, x y (or c dx1 dy1, dx2 dy2, dx dy)
         //S x2 y2, x y (or s dx2 dy2, dx dy)  so i think x1 y1 is last point
@@ -138,5 +136,13 @@ public class KanjiSVGTagHandler extends DefaultHandler {
                 throw new RuntimeException("unknown command [" + token + "]");
             }
         }
+
+//        move to first point and close contour
+        PathMeasure pathMeasure = new PathMeasure(resultPath, false);
+        float[] startPoint = new float[2];
+        pathMeasure.getPosTan(0, startPoint, null);
+        resultPath.moveTo(startPoint[0], startPoint[1]);
+        resultPath.close();
+        return resultPath;
     }
 }

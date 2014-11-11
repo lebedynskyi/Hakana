@@ -5,6 +5,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 
 import java.io.InputStream;
+import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -20,7 +21,7 @@ public class KanjiVGParser {
     private final Context context;
     private boolean parsed = false;
 
-    private Path mPath;
+    private List<Path> mPath;
     private Point symbolSize;
 
     public KanjiVGParser(String assetFilePath, Context c) {
@@ -36,7 +37,7 @@ public class KanjiVGParser {
             SAXParser parser = saxParserFactory.newSAXParser();
             KanjiSVGTagHandler tagHandler = new KanjiSVGTagHandler();
             parser.parse(stream, tagHandler);
-            mPath = tagHandler.getParsedPath();
+            mPath = tagHandler.getParsedPathes();
             symbolSize = tagHandler.getParsedSymbolSize();
             parsed = true;
         } finally {
@@ -48,7 +49,7 @@ public class KanjiVGParser {
     }
 
     //returns parsed mPath
-    public Path getPath() {
+    public List<Path> getPath() {
         if (!parsed) {
             throw new IllegalStateException("parse() should be called before");
         }
