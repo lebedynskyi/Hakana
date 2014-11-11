@@ -26,7 +26,7 @@ def getVersionName = { ->
 
 android {
     compileSdkVersion 18
-    buildToolsVersion "21.1"
+    buildToolsVersion "21.1.0"
 
     defaultConfig {
         applicationId "net.japan.kana.hakana"
@@ -38,7 +38,7 @@ android {
 
     buildTypes {
         release {
-            runProguard false
+            runProguard false // TODO change it
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -46,7 +46,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:21.0.+'
-    compile 'com.google.android.gms:play-services:6.1.+'
+    compile 'com.android.support:support-v4:21.0.0'
+    compile 'com.google.android.gms:play-services:6.1.71'
     compile 'com.jakewharton:butterknife:6.0.0'
 }
