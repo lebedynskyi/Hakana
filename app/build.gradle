@@ -26,7 +26,7 @@ def getVersionName = { ->
 
 android {
     compileSdkVersion 18
-    buildToolsVersion "21.1.0"
+    buildToolsVersion "20.0.0"
 
     defaultConfig {
         applicationId "net.japan.kana.hakana"
