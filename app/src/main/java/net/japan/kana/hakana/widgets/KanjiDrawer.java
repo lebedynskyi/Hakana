@@ -15,7 +15,7 @@ import net.japan.kana.hakana.tools.Logging;
  * Date 10/27/14
  */
 public class KanjiDrawer extends View {
-    public static final String TRACK_TAG = "KanjiDrawer";
+    public static final String TAG = "KanjiDrawer";
 
     private HandWriter mHandWriter;
     private String mAssetFile;
@@ -40,7 +40,7 @@ public class KanjiDrawer extends View {
             KanjiVGParser parser = new KanjiVGParser(mAssetFile, getContext());
             parser.parse();
 
-            mHandWriter = new HandWriter(getContext(), mScale);
+            mHandWriter = new HandWriter(getContext(), mScale, 125);  //TODO calculate step count
             mHandWriter.setPath(parser.getPath());
             invalidate();
         } catch (Exception e) {
@@ -54,14 +54,17 @@ public class KanjiDrawer extends View {
         super.onDraw(canvas);
         canvas.save();
         if (mHandWriter == null) {
-            Logging.e(TRACK_TAG, "mKanjiPath == null || mHandWriter == null");
+            Logging.w(TAG, "mHandWriter == null");
             return;
         }
 
-        mHandWriter.draw(canvas);
+        if (mHandWriter.draw(canvas)){
+            Logging.d(TAG, "Finished drawing .....");
+        }else {
+            postDelayed(poster, 40);
+        }
 
         canvas.restore();
-
     }
 
     @Override

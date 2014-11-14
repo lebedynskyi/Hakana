@@ -10,7 +10,7 @@ import net.japan.kana.hakana.models.KanaSymbol;
 public final class Const {
     public static class Core {
         public static final boolean LOGABLE = BuildConfig.DEBUG;
-        public static final String DEFAULT_LOG_TAG = "Hakana log --- >>>>";
+        public static final String DEFAULT_LOG_TAG = "Hakana log>>>>";
     }
 
     public static class DB {

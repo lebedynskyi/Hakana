@@ -8,13 +8,11 @@ import android.graphics.PathMeasure;
  * Date 09.11.14
  */
 public class PathWraper {
-    private Path mPath;
     private float mLength;
     private PathMeasure mMeasure;
 
     public PathWraper(Path path) {
-        this.mPath = mPath;
-        mMeasure = new PathMeasure(mPath, false);
+        mMeasure = new PathMeasure(path, false);
         mLength = mMeasure.getLength();
     }
 
@@ -25,6 +23,7 @@ public class PathWraper {
     public Path getPart(float offset){
         Path p = new Path();
         mMeasure.getSegment(0, offset, p, true);
+        p.rLineTo(0, 0); // Hack from developers.android.com
         return p;
     }
 }
