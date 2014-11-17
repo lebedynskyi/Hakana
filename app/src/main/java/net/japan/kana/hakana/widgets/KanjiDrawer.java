@@ -40,7 +40,7 @@ public class KanjiDrawer extends View {
             KanjiVGParser parser = new KanjiVGParser(mAssetFile, getContext());
             parser.parse();
 
-            mHandWriter = new HandWriter(getContext(), mScale, 125);  //TODO calculate step count
+            mHandWriter = new HandWriter(getContext(), mScale, 150);  //TODO calculate step count
             mHandWriter.setPath(parser.getPath());
             invalidate();
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class KanjiDrawer extends View {
         if (mHandWriter.draw(canvas)){
             Logging.d(TAG, "Finished drawing .....");
         }else {
-            postDelayed(poster, 40);
+            postDelayed(poster, 25);
         }
 
         canvas.restore();

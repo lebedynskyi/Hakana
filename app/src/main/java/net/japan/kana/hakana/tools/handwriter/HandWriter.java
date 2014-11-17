@@ -6,7 +6,6 @@ import net.japan.kana.hakana.R;
 import net.japan.kana.hakana.tools.Logging;
 import net.japan.kana.hakana.tools.ViewUtils;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
  * Date 10/27/14
  */
 public class HandWriter {
-    private List<PathWraper> mPathes;
+    private List<PathWrapper> mPathes;
     private Paint mPaint;
 
     //Translate and scaling property
@@ -25,7 +24,7 @@ public class HandWriter {
 
     private float drawOffset;
     private int drawSteepsCount;
-    private float lastDrawedlength;
+    private float requredDrawLength;
     private float allLength;
 
     public HandWriter(Context context, float scale, int drawSteepsCount) {
@@ -52,42 +51,42 @@ public class HandWriter {
             return false;
         }
 
-        lastDrawedlength += drawOffset;
-        if(lastDrawedlength >= allLength){
-            lastDrawedlength = allLength; //Final part of symbol
+        requredDrawLength += drawOffset;
+        if(requredDrawLength >= allLength){
+            requredDrawLength = allLength; //Final part of symbol
         }
 
-        float allPassedLength = 0f;
-        //TODO not working. Should refactor it
-        for(PathWraper p : mPathes){
-            if(lastDrawedlength >= p.getLength()){
-                allPassedLength += p.getLength();
-                canvas.drawPath(p.getPart(p.getLength()), mPaint);
-            }else {
-                float pathPartOffset = lastDrawedlength - allPassedLength;
-                Logging.d("Index = " + mPathes.indexOf(p) + ", Drawing part = " + pathPartOffset);
-                canvas.drawPath(p.getPart(pathPartOffset), mPaint);
-                break;
+        float tempLength = 0.0f;// length of already drawn path
+        for (PathWrapper p : mPathes) {
+            if(tempLength < requredDrawLength){
+                float pLength = p.getLength(); //length of current
+                if((tempLength + pLength) <= requredDrawLength ){
+                    tempLength += pLength;
+                    canvas.drawPath(p.getPart(pLength), mPaint);
+                }else {
+                    canvas.drawPath(p.getPart(requredDrawLength - tempLength), mPaint);
+                    tempLength += requredDrawLength;
+                }
             }
         }
 
-        return Float.compare(allLength, lastDrawedlength) == 0;
+        return Float.compare(allLength, requredDrawLength) == 0;
     }
 
     public void setPath(List<Path> path) {
         //Set up current path
-        mPathes = new LinkedList<PathWraper>();
+        mPathes = new LinkedList<PathWrapper>();
         allLength = 0;
 
         for (Path p : path){
             p.transform(this.mTranslateMatrix);
             p.transform(this.mScaleMatrix);
-            PathWraper wraper = new PathWraper(p);
+            PathWrapper wraper = new PathWrapper(p);
             allLength += wraper.getLength();
             mPathes.add(wraper);
         }
 
         drawOffset = allLength / drawSteepsCount;
-        lastDrawedlength = 0f;
+        requredDrawLength = 0f;
     }
 }

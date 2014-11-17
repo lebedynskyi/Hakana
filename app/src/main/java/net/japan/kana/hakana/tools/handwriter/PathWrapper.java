@@ -7,11 +7,11 @@ import android.graphics.PathMeasure;
  * Author Vitalii Lebedynskyi
  * Date 09.11.14
  */
-public class PathWraper {
+public class PathWrapper {
     private float mLength;
     private PathMeasure mMeasure;
 
-    public PathWraper(Path path) {
+    public PathWrapper(Path path) {
         mMeasure = new PathMeasure(path, false);
         mLength = mMeasure.getLength();
     }
