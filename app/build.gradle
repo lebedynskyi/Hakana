@@ -26,7 +26,7 @@ def getVersionName = { ->
 
 android {
     compileSdkVersion 18
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "20.0"
 
     defaultConfig {
         applicationId "net.japan.kana.hakana"
@@ -34,11 +34,6 @@ android {
         targetSdkVersion 18
         versionCode getVersionCode()
         versionName getVersionName()
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     buildTypes {
