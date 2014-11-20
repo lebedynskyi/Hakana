@@ -22,8 +22,7 @@ import net.japan.kana.hakana.widgets.KanjiDrawer;
 public class KanjiDrawerFragment extends BaseFragment<MainActivity> {
     @InjectView(R.id.kana_drawer)
     KanjiDrawer kanaDrawer;
-
-    private Kana kanjiSymbol;
+    private String idOfAsett;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,24 +43,19 @@ public class KanjiDrawerFragment extends BaseFragment<MainActivity> {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        //There is a bug during rotation. handwritten symbol is disappearing.
-        if(kanjiSymbol == null){
-            return;
-        }
 
         kanaDrawer.postDelayed(new Runnable() {
             @Override
             public void run() {
-                setKanjiSymbol(kanjiSymbol, false);
+                setKanjiSymbol(idOfAsett, false);
             }
         }, 150);
     }
 
-    public void setKanjiSymbol(Kana clickedSymbol, boolean playSound) {
+    public void setKanjiSymbol(String idOfAsett, boolean playSound) {
         //TODO play sound and check ty
-        Toast.makeText(mActivity, clickedSymbol.getHiragana() + " ->> " + clickedSymbol.getHiraganaAscii(), Toast.LENGTH_SHORT).show();
-        this.kanjiSymbol = clickedSymbol;
-        kanaDrawer.setKanjiFile("kana/" + clickedSymbol.getHiraganaAscii());
+        this.idOfAsett = idOfAsett;
+        kanaDrawer.setKanjiFile("kana/" + idOfAsett);
     }
 
     public void startDraw() {

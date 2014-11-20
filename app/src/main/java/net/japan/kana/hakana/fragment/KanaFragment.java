@@ -35,6 +35,7 @@ public class KanaFragment extends BaseFragment<MainActivity> {
 
     private KanaCursorAdapter kanaAdapter;
     private KanjiDrawerFragment drawerFragment;
+    public Kana clickedSymbol;
 
     @InjectView(R.id.kana_grid_view)
     GridView kanaGrid;
@@ -79,6 +80,14 @@ public class KanaFragment extends BaseFragment<MainActivity> {
                 kanaSet = Kana.Set.YOUON;
                 getLoaderManager().restartLoader(100, null, kanaLoaderCallback);
             }
+        }else if(item.getItemId() == R.id.kana_scripts){
+            kanaType = kanaType == KanaType.HIRAGANA ? KanaType.KATAKANA : KanaType.HIRAGANA;
+            kanaAdapter.setkanaType(kanaType);
+            kanaAdapter.notifyDataSetChanged();
+
+            if(clickedSymbol != null){
+                drawerFragment.setKanjiSymbol(kanaType == KanaType.HIRAGANA? clickedSymbol.getHiraganaAscii() : clickedSymbol.getKatakanaAscii(), true);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -112,9 +121,10 @@ public class KanaFragment extends BaseFragment<MainActivity> {
     }
 
     private AdapterView.OnItemClickListener symbolClickListener = new AdapterView.OnItemClickListener() {
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Kana clickedSymbol = kanaAdapter.getItem(position);
+            clickedSymbol = kanaAdapter.getItem(position);
             if (drawerFragment == null) {
                 drawerFragment = (KanjiDrawerFragment) getFragmentManager().findFragmentById(R.id.kanji_drawer_container);
             }
@@ -125,7 +135,7 @@ public class KanaFragment extends BaseFragment<MainActivity> {
                     mDrawerLayout.openDrawer(mKanjiDrawerContainer);
                 }
             }
-            drawerFragment.setKanjiSymbol(clickedSymbol, true);
+            drawerFragment.setKanjiSymbol(kanaType == KanaType.HIRAGANA? clickedSymbol.getHiraganaAscii() : clickedSymbol.getKatakanaAscii(), true);
         }
     };
 

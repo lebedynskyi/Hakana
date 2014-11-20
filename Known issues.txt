@@ -1,9 +1,9 @@
-1) Disappearing of kana handwritten symbol after rotation  -> <Fixed> by hack (delay 150 ms)
-2) Hide Navigation drawer with kanji handwritten symbol when user press back button -> <Fixed>
-3) Changing of title when fragment is visible
+-3) Changing of title when fragment is visible
 4) Replace border background for kana items.  Use spacing and background of grid view
 5) Add one certificate for builds
 6) Calculate speed of drawing in handwriter
 7) Test should use assets of main module
 8) KanjiDrawer - use dimens for width of drawer
 9) Save clicked state of current set of kana
+10) Use scroller instead of hardcoded delay for invalidating Handwriter
+11) Disable KanjiDrawerr when it doesn't have clicked symbol

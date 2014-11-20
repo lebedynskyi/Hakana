@@ -62,6 +62,10 @@ public class KanaCursorAdapter extends CursorAdapter {
         holder.kanaPronounce.setText(cursor.getString(cursor.getColumnIndex(Kana.EN)));
     }
 
+    public void setkanaType(KanaFragment.KanaType kanaType) {
+        this.type = kanaType;
+    }
+
     static class ViewHolder {
         @InjectView(R.id.kana_pronounce)
         TextView kanaPronounce;

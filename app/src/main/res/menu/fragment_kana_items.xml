@@ -2,6 +2,7 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+            android:id="@+id/kana_scripts"
             android:title="@string/kana_scripts"
             android:icon="@android:drawable/ic_menu_help"
             android:showAsAction="ifRoom"/>
