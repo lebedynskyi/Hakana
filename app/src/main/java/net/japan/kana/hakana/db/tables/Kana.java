@@ -7,7 +7,7 @@ import net.japan.kana.hakana.db.BaseTable;
  * Date 10/24/14
  */
 public class Kana extends BaseTable{
-    public static final String TABLE = "KanaDroid";
+    public static final String TABLE = "Kana";
     public static final String HIRAGANA = "hiragana";
     public static final String KATAKANA = "katakana";
     public static final String EN = "en";

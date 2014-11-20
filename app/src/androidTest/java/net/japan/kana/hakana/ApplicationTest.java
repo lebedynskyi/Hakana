@@ -6,7 +6,6 @@ import android.test.ApplicationTestCase;
 import net.japan.kana.hakana.core.App;
 import net.japan.kana.hakana.core.Const;
 import net.japan.kana.hakana.db.SQLiteDBHelper;
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +26,8 @@ public class ApplicationTest extends ApplicationTestCase<App> {
 
     public void testCopyDB(){
         assertEquals(true, getApplication().copyDb(getContext().getDatabasePath(Const.DB.NAME)));
+        File dbFile = getApplication().getDatabasePath(Const.DB.NAME);
+        assertEquals(true, dbFile.exists());
     }
 
     public void testGetTracker(){
@@ -37,10 +38,5 @@ public class ApplicationTest extends ApplicationTestCase<App> {
         testCopyDB();
         SQLiteDBHelper helper = new SQLiteDBHelper(getApplication());
         assertEquals(true, helper.getWritableDatabase() != null);
-
-        File dbFile = getApplication().getDatabasePath(Const.DB.NAME);
-        File outFile = new File(Environment.getExternalStorageDirectory(), Const.DB.NAME);
-        outFile.createNewFile();
-        FileUtils.copyFile(dbFile, outFile);
     }
 }
