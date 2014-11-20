@@ -117,8 +117,9 @@ public class MainActivity extends BaseActivity {
             } else {
                 mDrawer.openDrawer(mDrawerMenu);
             }
+            return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     //Initializing of drawer and arrow on the action bar

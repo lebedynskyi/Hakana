@@ -56,6 +56,33 @@ public class KanaFragment extends BaseFragment<MainActivity> {
         inflater.inflate(R.menu.fragment_kana_items, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.diacritics_seion){
+            if(kanaSet == Kana.Set.SEION){
+                return true;
+            }else {
+                kanaSet = Kana.Set.SEION;
+                getLoaderManager().restartLoader(100, null, kanaLoaderCallback);
+            }
+        }else if(item.getItemId() == R.id.diacritics_dakuon){
+            if(kanaSet == Kana.Set.DAKYOUN){
+                return true;
+            }else {
+                kanaSet = Kana.Set.DAKYOUN;
+                getLoaderManager().restartLoader(100, null, kanaLoaderCallback);
+            }
+        }else if(item.getItemId() == R.id.diacritics_youon){
+            if(kanaSet == Kana.Set.YOUON){
+                return true;
+            }else {
+                kanaSet = Kana.Set.YOUON;
+                getLoaderManager().restartLoader(100, null, kanaLoaderCallback);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,6 +139,8 @@ public class KanaFragment extends BaseFragment<MainActivity> {
 
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            int columnCount = kanaSet == Kana.Set.YOUON ? 3 : 5;
+            kanaGrid.setNumColumns(columnCount);
             kanaAdapter.setCursor(data, kanaType);
             Logging.d("Loaded " + data.getCount() + " symbols");
         }

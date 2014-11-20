@@ -5,3 +5,5 @@
 5) Add one certificate for builds
 6) Calculate speed of drawing in handwriter
 7) Test should use assets of main module
+8) KanjiDrawer - use dimens for width of drawer
+9) Save clicked state of current set of kana
