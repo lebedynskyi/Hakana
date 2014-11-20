@@ -10,7 +10,7 @@ import net.japan.kana.hakana.tools.parser.KanjiVGParser;
  */
 public class ToolsTest extends InstrumentationTestCase {
     public void testKanjiSVGParser() throws Exception {
-        KanjiVGParser parser = new KanjiVGParser("test_kanjivg_file", getInstrumentation().getContext());
+        KanjiVGParser parser = new KanjiVGParser("kana/test_kanjivg_file", getInstrumentation().getContext());
         parser.parse();
         assertNotNull(parser.getSymbolSize());
         assertEquals(109, parser.getSymbolSize().x);

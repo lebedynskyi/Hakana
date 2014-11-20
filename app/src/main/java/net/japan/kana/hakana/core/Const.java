@@ -15,7 +15,7 @@ public final class Const {
 
     public static class DB {
         public static final int VERSION = 1;
-        public static final String NAME = "Hakana.db";
+        public static final String NAME = "hakana.db";
     }
 
     public static class Kana {

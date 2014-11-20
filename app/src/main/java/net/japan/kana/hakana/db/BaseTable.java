@@ -12,7 +12,7 @@ public class BaseTable {
         return mId;
     }
 
-    public void setId(int _id) {
-        this.mId = _id;
+    public void setId(int id) {
+        this.mId = id;
     }
 }

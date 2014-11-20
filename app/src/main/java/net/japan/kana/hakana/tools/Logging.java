@@ -42,4 +42,10 @@ public class Logging {
     public static void trackException(Context context, Exception e) {
 
     }
+
+    public static void printStackTrace(Throwable e) {
+        if (Const.Core.LOGABLE) {
+            e.printStackTrace();
+        }
+    }
 }
