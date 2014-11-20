@@ -12,7 +12,7 @@ import butterknife.InjectView;
 import net.japan.kana.hakana.R;
 import net.japan.kana.hakana.activity.MainActivity;
 import net.japan.kana.hakana.core.BaseFragment;
-import net.japan.kana.hakana.models.KanaSymbol;
+import net.japan.kana.hakana.db.tables.Kana;
 import net.japan.kana.hakana.widgets.KanjiDrawer;
 
 /**
@@ -23,7 +23,7 @@ public class KanjiDrawerFragment extends BaseFragment<MainActivity> {
     @InjectView(R.id.kana_drawer)
     KanjiDrawer kanaDrawer;
 
-    private KanaSymbol kanjiSymbol;
+    private Kana kanjiSymbol;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,8 @@ public class KanjiDrawerFragment extends BaseFragment<MainActivity> {
         }, 150);
     }
 
-    public void setKanjiSymbol(KanaSymbol clickedSymbol, boolean playSound) {
-        //TODO play sound
+    public void setKanjiSymbol(Kana clickedSymbol, boolean playSound) {
+        //TODO play sound and check ty
         Toast.makeText(mActivity, clickedSymbol.getHiragana() + " ->> " + clickedSymbol.getHiraganaAscii(), Toast.LENGTH_SHORT).show();
         this.kanjiSymbol = clickedSymbol;
         kanaDrawer.setKanjiFile("kana/" + clickedSymbol.getHiraganaAscii());

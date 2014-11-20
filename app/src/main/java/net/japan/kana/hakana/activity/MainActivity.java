@@ -136,6 +136,13 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!(currentFragment instanceof BaseFragment) || !((BaseFragment) currentFragment).consumeBackEvent()) {
+            super.onBackPressed();
+        }
+    }
+
     @OnClick({R.id.drawer_menu_kana_btn, R.id.drawer_menu_settings_btn, R.id.drawer_menu_test_btn, R.id.drawer_menu_about_btn, R.id.drawer_menu_vocab_btn})
     public void onDrawerMenuClicked(View v) {
         mDrawer.closeDrawer(mDrawerMenu);

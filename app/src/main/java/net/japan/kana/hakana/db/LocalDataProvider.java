@@ -13,15 +13,14 @@ import net.japan.kana.hakana.db.tables.Kana;
  * Date 10/27/14
  */
 public class LocalDataProvider extends ContentProvider {
-    public static final String AUTH = "net.japan.kana.hakana.db.LocalDataProvider";
-    public static final String BASE_PATH = "content://" + AUTH;
-    public static final String KANA_PATH = BASE_PATH + "/" + Kana.TABLE;
-
     private static final int ALL_KANA_ID = 100;
-
     private static UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+    public static final String AUTH = "net.japan.kana.hakana.db.LocalDataProvider";
+    public static final Uri KANA_URI = Uri.parse("content://" + AUTH + "/" + Kana.TABLE);
+
     static {
-        uriMatcher.addURI(AUTH, KANA_PATH, ALL_KANA_ID);
+        uriMatcher.addURI(AUTH, Kana.TABLE, ALL_KANA_ID);
     }
 
     private SQLiteDBHelper dbHelper;

@@ -1,5 +1,6 @@
 package net.japan.kana.hakana.db.tables;
 
+import android.database.Cursor;
 import net.japan.kana.hakana.db.BaseTable;
 
 /**
@@ -15,11 +16,11 @@ public class Kana extends BaseTable{
 
     public static final String CREATE_QUERY = "CREATE TABLE " + TABLE + " (" + ID + " INTEGER PRIMARY KEY," + HIRAGANA + " TEXT," + KATAKANA + " TEXT," + EN + " TEXT," + TYPE + " INTEGER)";
 
-    public static enum Type{
+    public static enum Set {
         SEION(1), DAKYOUN(2), YOUON(3);
         int id;
 
-        Type(int value) {
+        Set(int value) {
             this.id = value;
         }
 
@@ -31,23 +32,35 @@ public class Kana extends BaseTable{
     private char hiragana;
     private char katakana;
     private String en;
-    private Type type;
+    private Set type;
 
-    private Kana(char hiragana, char katakana, String en, final int type) {
+    public Kana(){
+
+    }
+
+    public Kana(char hiragana, char katakana, String en, final int type) {
         this.hiragana = hiragana;
         this.katakana = katakana;
         this.en = en;
-        for (Type tp : Type.values()){
-            if(tp.getId() == type){
-                this.type = tp;
-                break;
-            }
-        }
+        setType(type);
 
         if(this.type == null){
             throw new IllegalArgumentException("Cannot find type with id " + type);
         }
     }
+
+    @Override
+    public void fillByCursor(Cursor c) {
+        char hiragana  = c.getString(c.getColumnIndex(Kana.HIRAGANA)).charAt(0);
+        char katakana  = c.getString(c.getColumnIndex(Kana.KATAKANA)).charAt(0);
+        String en = c.getString(c.getColumnIndex(Kana.EN));
+        int type = c.getInt(c.getColumnIndex(Kana.TYPE));
+
+        setHiragana(hiragana);
+        setKatakana(katakana);
+        setEn(en);
+    }
+
 
     public char getHiragana() {
         return hiragana;
@@ -71,5 +84,22 @@ public class Kana extends BaseTable{
 
     public void setEn(String en) {
         this.en = en;
+    }
+
+    public String getHiraganaAscii() {
+        return "0" + Integer.toHexString((int) hiragana);
+    }
+
+    public String getKatakanaAscii() {
+        return "0" + Integer.toHexString((int) katakana);
+    }
+
+    public void setType(int type) {
+        for (Set tp : Set.values()){
+            if(tp.getId() == type){
+                this.type = tp;
+                break;
+            }
+        }
     }
 }
